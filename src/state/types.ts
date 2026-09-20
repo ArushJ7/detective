@@ -60,6 +60,7 @@ export interface CaseTruth {
 export interface InvestigationState {
   caseId: string;
   caseTitle: string;
+  currentObjective: string;
   discoveredEvidenceIds: string[];
   inspectedEvidenceIds: string[];
   unlockedVaultItemIds: string[];
@@ -87,6 +88,7 @@ export type InvestigationAction =
   | { type: 'TOGGLE_UV_MODE'; payload?: boolean }
   | { type: 'SELECT_EVIDENCE'; payload: string | null }
   | { type: 'SELECT_SUSPECT'; payload: string | null }
+  | { type: 'SET_OBJECTIVE'; payload: string }
   | { type: 'SET_DEDUCTION_CULPRIT'; payload: string | null }
   | { type: 'SET_DEDUCTION_METHOD'; payload: string | null }
   | { type: 'SET_DEDUCTION_MOTIVE'; payload: string | null }

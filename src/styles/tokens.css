@@ -1,56 +1,66 @@
 :root {
-  /* Color Palette - Deep Forensic Noir */
-  --color-bg-primary: #0a0b0e;
-  --color-bg-secondary: #12151c;
-  --color-bg-tertiary: #1a1e28;
-  --color-bg-card: #151922;
-  --color-bg-card-hover: #1c2230;
-  --color-bg-overlay: rgba(10, 11, 14, 0.85);
+  /* Color Palette - Case File Noir (Stitch DESIGN.md Source of Truth) */
+  --color-bg-primary: #101411;
+  --color-bg-lowest: #0b0f0c;
+  --color-bg-low: #191d19;
+  --color-bg-secondary: #1d211d;
+  --color-bg-high: #272b28;
+  --color-bg-highest: #323632;
+  --color-bg-card: #1d211d;
+  --color-bg-card-hover: #272b28;
+  --color-bg-overlay: rgba(11, 15, 12, 0.9);
 
-  /* Brand / Primary Accent (Warm Aged Gold / Brass) */
-  --color-primary: #c9a86a;
-  --color-primary-hover: #d8b879;
-  --color-primary-active: #b89759;
-  --color-primary-dim: rgba(201, 168, 106, 0.15);
-  --color-primary-glow: rgba(201, 168, 106, 0.25);
+  /* Primary Brand (Warm Amber Gold) */
+  --color-primary: #e9c176;
+  --color-primary-hover: #ffdea5;
+  --color-primary-active: #c5a059;
+  --color-primary-container: #c5a059;
+  --color-on-primary: #412d00;
+  --color-primary-dim: rgba(233, 193, 118, 0.15);
+  --color-primary-glow: rgba(233, 193, 118, 0.25);
 
-  /* Functional Accents */
-  --color-accent-red: #c84b31;        /* Crimson Clue / Stamp Red */
+  /* Secondary Accents (Crimson Stamp & Warning) */
+  --color-secondary: #ffb3b5;
+  --color-secondary-container: #832933;
+  --color-on-secondary-container: #ff9da2;
+  --color-accent-red: #c84b31;
   --color-accent-red-dim: rgba(200, 75, 49, 0.15);
-  --color-accent-amber: #d97706;      /* Cautionary / Warning */
-  --color-accent-amber-dim: rgba(217, 119, 6, 0.15);
-  --color-accent-cyan: #22d3ee;       /* UV Mode / Forensic Cyan */
+
+  /* Tertiary Accents (Forensic Green & UV Cyan) */
+  --color-tertiary: #b7ccb2;
+  --color-tertiary-container: #96ab92;
+  --color-accent-cyan: #22d3ee;
   --color-accent-cyan-dim: rgba(34, 211, 238, 0.15);
-  --color-accent-green: #10b981;      /* Verified / Solved */
+  --color-accent-green: #10b981;
   --color-accent-green-dim: rgba(16, 185, 129, 0.15);
 
   /* Text Colors */
-  --color-text-primary: #e2e8f0;     /* Paper White */
-  --color-text-secondary: #94a3b8;   /* Muted Slate */
-  --color-text-tertiary: #64748b;    /* Dim / Watermark */
-  --color-text-gold: #c9a86a;        /* Gold Accent Text */
-  --color-text-red: #f87171;         /* Crimson Warning Text */
-  --color-text-cyan: #38bdf8;        /* UV Text */
+  --color-text-primary: #e0e3de;     /* On Surface Paper White */
+  --color-text-secondary: #d1c5b4;   /* On Surface Variant */
+  --color-text-tertiary: #9a8f80;    /* Outline Muted */
+  --color-text-gold: #e9c176;        /* Primary Gold Text */
+  --color-outline: #9a8f80;
+  --color-outline-variant: #4e4639;
 
   /* Borders & Dividers */
-  --color-border-subtle: rgba(201, 168, 106, 0.2);
-  --color-border-medium: rgba(201, 168, 106, 0.4);
-  --color-border-strong: #c9a86a;
+  --color-border-subtle: rgba(154, 143, 128, 0.2);
+  --color-border-medium: rgba(233, 193, 118, 0.4);
+  --color-border-strong: #e9c176;
   --color-border-red: rgba(200, 75, 49, 0.5);
   --color-border-cyan: rgba(34, 211, 238, 0.5);
 
   /* Shadows & Glows */
-  --shadow-gold-glow: 0 0 25px rgba(201, 168, 106, 0.2);
+  --shadow-gold-glow: 0 0 25px rgba(233, 193, 118, 0.25);
   --shadow-uv-glow: 0 0 30px rgba(34, 211, 238, 0.3);
   --shadow-crimson-glow: 0 0 25px rgba(200, 75, 49, 0.3);
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.8);
 
-  /* Typography Fonts */
-  --font-headline: 'Cinzel', 'Times New Roman', serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Courier Prime', 'Courier New', monospace;
+  /* Typography Fonts per DESIGN.md */
+  --font-headline: 'EB Garamond', 'Cinzel', serif;
+  --font-body: 'Courier Prime', monospace;
+  --font-mono: 'Courier Prime', monospace;
 
-  /* Strict Design Rule: Razor Sharp Edges */
+  /* STRICT DESIGN RULE: Razor Sharp Edges */
   --border-radius: 0px;
 
   /* Transitions */

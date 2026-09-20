@@ -1,65 +1,166 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Clock, AlertTriangle } from 'lucide-react';
+import { DoorOpen, FileText, Lock, Users, Fingerprint, X, Volume2 } from 'lucide-react';
 import './CaseIntroductionPage.css';
 
 export const CaseIntroductionPage: React.FC = () => {
   const navigate = useNavigate();
+  const [showBriefModal, setShowBriefModal] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+
+  const handleEnterEstate = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      navigate('/scene');
+    }, 450);
+  };
 
   return (
-    <div className="case-intro-container animate-fade-in">
-      <div className="intro-card">
-        <div className="intro-header">
-          <div className="intro-stamp label-stamp label-stamp-red">CASE DOSSIER #001</div>
-          <h1 className="intro-title">THE MISSING NECKLACE</h1>
-          <div className="intro-subtitle font-mono">BLACKWOOD MANOR ESTATE — 20 SEPTEMBER</div>
+    <div className={`case-intro-container ${isTransitioning ? 'transition-out' : ''}`}>
+      {/* Film Noir Ambient Background Overlays */}
+      <div className="intro-bg-overlay">
+        <div className="vignette-radial"></div>
+        <div className="gradient-left"></div>
+      </div>
+
+      {/* SVG Rain Effect Simulation */}
+      <svg className="rain-svg-overlay" xmlns="http://www.w3.org/2000/svg">
+        <line stroke="#e0e3de" strokeDasharray="8 60" strokeWidth="0.5" x1="12%" x2="10%" y1="0%" y2="100%" />
+        <line stroke="#e0e3de" strokeDasharray="12 80" strokeWidth="0.75" x1="38%" x2="35%" y1="0%" y2="100%" />
+        <line stroke="#e0e3de" strokeDasharray="15 70" strokeWidth="0.5" x1="65%" x2="62%" y1="0%" y2="100%" />
+        <line stroke="#e0e3de" strokeDasharray="10 90" strokeWidth="0.6" x1="88%" x2="85%" y1="0%" y2="100%" />
+      </svg>
+
+      {/* Top Docket / Confidential Dispatch Header */}
+      <div className="intro-top-docket font-mono">
+        <div className="docket-tag-group">
+          <span className="ping-dot"></span>
+          <span className="docket-id">ARCHIVE DOCKET: SY-1894-CR-001</span>
+          <span className="divider-slash">/</span>
+          <span className="docket-sub">SCOTLAND YARD CRIMINAL INVESTIGATION DEPT.</span>
         </div>
 
-        <div className="intro-briefing">
-          <div className="briefing-section">
-            <h3 className="section-title"><Clock size={16} /> INCIDENT SUMMARY</h3>
-            <p className="briefing-text">
-              At 21:24 GMT during an evening gala at Blackwood Manor, the primary electrical circuit tripped, plunging the grand drawing room into blackout for exactly four minutes.
-            </p>
-            <p className="briefing-text">
-              When emergency power restored, the primary glass vitrine housing the priceless <strong>Star of Blackwood Diamond Necklace</strong> (£1.2M value) was discovered unlocked and empty.
-            </p>
-          </div>
-
-          <div className="briefing-grid">
-            <div className="brief-item">
-              <span className="brief-label font-mono">PRIMARY LOCATION</span>
-              <span className="brief-val">Drawing Room, West Wing</span>
-            </div>
-            <div className="brief-item">
-              <span className="brief-label font-mono">VICTIM / OWNER</span>
-              <span className="brief-val">Lady Eleanor Blackwood</span>
-            </div>
-            <div className="brief-item">
-              <span className="brief-label font-mono">SUSPECTS ON SITE</span>
-              <span className="brief-val">4 Key Persons of Interest</span>
-            </div>
-            <div className="brief-item">
-              <span className="brief-label font-mono">INITIAL CLUES</span>
-              <span className="brief-val">10 Items Discovered</span>
-            </div>
-          </div>
-
-          <div className="intro-directive">
-            <AlertTriangle className="directive-icon" size={20} />
-            <div className="directive-text">
-              <strong>INVESTIGATIVE DIRECTIVE:</strong> Examine the crime scene, inspect physical evidence in detail, review suspect dossiers, and connect clues on the Evidence Board to pinpoint the thief, method, and motive.
-            </div>
-          </div>
-        </div>
-
-        <div className="intro-actions">
-          <button className="btn-begin-investigation" onClick={() => navigate('/scene')}>
-            <span>BEGIN INVESTIGATION</span>
-            <ArrowRight size={18} />
-          </button>
+        <div className="restricted-stamp">
+          <span>RESTRICTED · EYES ONLY</span>
         </div>
       </div>
+
+      {/* Central Narrative Focal Anchor */}
+      <div className="intro-main-content">
+        <div className="incident-date-row font-mono">
+          <span className="gold-dash"></span>
+          <span>BLACKWOOD ESTATE · 14 OCTOBER · 22:47 BST</span>
+        </div>
+
+        <h1 className="intro-monumental-title font-headline">
+          THE MISSING NECKLACE
+        </h1>
+
+        {/* Typewritten Incident Summary Card */}
+        <div className="typewriter-ledger-card">
+          <div className="card-top-tab"></div>
+
+          <p className="ledger-quote font-headline">
+            “A priceless Queen of Solms diamond necklace has vanished from a double-locked vitrine during the annual winter solstice banquet.”
+          </p>
+
+          <p className="ledger-body font-mono">
+            Four guests remain sequestered inside the estate. Midnight rain torrents have washed out the Blackwood ravine bridge. Telephone lines have been severed. The culprit is still inside these walls.
+          </p>
+
+          {/* Quick Case Manifest Stats */}
+          <div className="manifest-quick-stats font-mono">
+            <div className="stat-pill">
+              <Lock size={14} className="text-gold" />
+              <span className="stat-label">SCENE:</span>
+              <span className="stat-val">DRAWING ROOM VITRINE</span>
+            </div>
+            <div className="stat-pill">
+              <Users size={14} className="text-red" />
+              <span className="stat-label">SUSPECTS:</span>
+              <span className="stat-val">4 REMAINING</span>
+            </div>
+            <div className="stat-pill">
+              <Fingerprint size={14} className="text-green" />
+              <span className="stat-label">LEADS:</span>
+              <span className="stat-val">12 UNRESOLVED</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Action CTAs */}
+        <div className="intro-action-bar font-mono">
+          <button className="btn-enter-estate" onClick={handleEnterEstate}>
+            <DoorOpen size={18} />
+            <span>[ ENTER THE ESTATE ]</span>
+          </button>
+
+          <button className="btn-read-brief" onClick={() => setShowBriefModal(true)}>
+            <FileText size={16} />
+            <span>[ READ CASE BRIEF ]</span>
+          </button>
+
+          <div className="audio-ambient-pill font-mono">
+            <Volume2 size={16} className="text-gold" />
+            <span>AUDIO: AMBIENT MONSOON (60 BPM)</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Forensic Case Metadata Banner */}
+      <div className="intro-bottom-banner font-mono">
+        <div className="banner-left">
+          <span className="label-title">DIFFICULTY:</span>
+          <span className="label-val">FORENSIC DEDUCTION (UNGUIDED)</span>
+          <span className="divider">|</span>
+          <span className="label-title">ESTIMATED RECONSTRUCTION:</span>
+          <span className="label-val">45 MINUTES</span>
+        </div>
+
+        <div className="banner-right">
+          <div className="marker-item">
+            <span className="dot dot-green"></span>
+            <span>VITRINE SECURED: 21:00</span>
+          </div>
+          <div className="marker-item">
+            <span className="dot dot-red"></span>
+            <span>POWER FAULT: 22:30</span>
+          </div>
+          <div className="marker-item">
+            <span className="dot dot-gold animate-pulse"></span>
+            <span>THEFT DISCOVERED: 22:47</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Case Brief Modal Overlay */}
+      {showBriefModal && (
+        <div className="brief-modal-backdrop animate-fade-in">
+          <div className="brief-modal-card">
+            <div className="modal-header">
+              <div>
+                <span className="modal-tag font-mono">OFFICIAL POLICE REPORT</span>
+                <h2 className="modal-title font-headline">EXHIBIT A: PRELIMINARY SYNOPSIS</h2>
+              </div>
+              <button className="modal-close-btn font-mono" onClick={() => setShowBriefModal(false)}>
+                [ESC / CLOSE] <X size={16} />
+              </button>
+            </div>
+
+            <div className="modal-body font-mono">
+              <p>
+                On the evening of 14 October, Lord Archibald Blackwood hosted an intimate gathering for four esteemed associates to present the 120-carat Queen of Solms necklace. The gem was contained in an armored glass vitrine with two keyed locks: Key A held by Lord Blackwood, Key B by his housekeeper, Victoria Vane.
+              </p>
+              <p>
+                At 22:30, lightning grounded the generator transformer. The entire manor was plunged into darkness for seventeen minutes. When power was restored at 22:47, the cabinet was unlocked, unmarred, and empty.
+              </p>
+              <p className="modal-highlight font-headline">
+                “No glass was shattered. No lock pins were forced with picks. The culprit possessed access to a key or crafted a duplicate.”
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

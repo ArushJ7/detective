@@ -3,16 +3,16 @@ import type { InvestigationState, InvestigationAction } from './types';
 export const initialInvestigationState: InvestigationState = {
   caseId: 'CASE-001',
   caseTitle: 'The Missing Necklace',
-  discoveredEvidenceIds: ['EVD-001', 'EVD-002', 'EVD-003', 'EVD-004', 'EVD-005', 'EVD-006', 'EVD-007', 'EVD-008', 'EVD-009', 'EVD-010'],
+  currentObjective: 'Search the drawing room for signs of forced entry.',
+  discoveredEvidenceIds: ['EVD-001'], // Starts with vitrine lock discovered upon entering
   inspectedEvidenceIds: ['EVD-001'],
   unlockedVaultItemIds: [],
   boardConnections: [
-    { id: 'conn-1', sourceId: 'EVD-001', targetId: 'EVD-004', label: 'Wax Residue Match' },
-    { id: 'conn-2', sourceId: 'EVD-003', targetId: 'EVD-008', label: 'Mayfair Debts' }
+    { id: 'conn-1', sourceId: 'EVD-001', targetId: 'EVD-004', label: 'Wax Residue Match' }
   ],
   questionedSuspectIds: ['james-blackwood'],
   unlockedTopicIds: {
-    'james-blackwood': ['topic-alibi', 'topic-debts']
+    'james-blackwood': ['topic-alibi']
   },
   uvModeActive: false,
   selectedEvidenceId: 'EVD-001',
@@ -30,12 +30,24 @@ export function investigationReducer(
   action: InvestigationAction
 ): InvestigationState {
   switch (action.type) {
-    case 'DISCOVER_EVIDENCE':
+    case 'DISCOVER_EVIDENCE': {
       if (state.discoveredEvidenceIds.includes(action.payload)) return state;
+
+      const newDiscovered = [...state.discoveredEvidenceIds, action.payload];
+      let updatedObjective = state.currentObjective;
+
+      if (newDiscovered.includes('EVD-004') || newDiscovered.includes('EVD-006')) {
+        updatedObjective = 'Examine paraffin wax and footprint evidence for suspect matches.';
+      } else if (newDiscovered.includes('EVD-005')) {
+        updatedObjective = 'Check electrical basement logs and cross-examine suspect alibis.';
+      }
+
       return {
         ...state,
-        discoveredEvidenceIds: [...state.discoveredEvidenceIds, action.payload]
+        discoveredEvidenceIds: newDiscovered,
+        currentObjective: updatedObjective
       };
+    }
 
     case 'INSPECT_EVIDENCE':
       if (state.inspectedEvidenceIds.includes(action.payload)) {
@@ -45,6 +57,12 @@ export function investigationReducer(
         ...state,
         inspectedEvidenceIds: [...state.inspectedEvidenceIds, action.payload],
         selectedEvidenceId: action.payload
+      };
+
+    case 'SET_OBJECTIVE':
+      return {
+        ...state,
+        currentObjective: action.payload
       };
 
     case 'UNLOCK_VAULT_ITEM':

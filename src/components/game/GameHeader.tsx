@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { Eye, Shield, FileText, Lock, Users, Brain, MapPin, Sparkles } from 'lucide-react';
+import { Eye, Shield, FileText, Lock, Users, Brain, MapPin, Sparkles, Target } from 'lucide-react';
 import './GameHeader.css';
 
 export const GameHeader: React.FC = () => {
@@ -26,22 +26,23 @@ export const GameHeader: React.FC = () => {
         <div className="header-brand">
           <Shield className="header-logo-icon" size={20} />
           <div className="header-brand-titles">
-            <span className="case-tag">CASE #001 — CONFIDENTIAL</span>
-            <span className="case-title">THE MISSING NECKLACE</span>
+            <span className="case-tag">CASE FILE #001 — CONFIDENTIAL</span>
+            <span className="case-title font-headline">The Missing Necklace · Blackwood Estate</span>
           </div>
         </div>
 
-        <div className="header-center-status">
-          <div className="status-pill">
-            <span className="status-dot"></span>
-            <span className="font-mono">INVESTIGATION IN PROGRESS</span>
-          </div>
-          <div className="evidence-counter font-mono">
-            EVIDENCE DISCOVERED: <strong>{discoveredEvidence.length} / 12</strong>
-          </div>
+        {/* Objective Pill */}
+        <div className="header-objective-pill font-mono">
+          <Target size={14} className="objective-icon" />
+          <span className="objective-prefix font-bold">[OBJECTIVE:</span>
+          <span className="objective-text">{state.currentObjective}</span>
+          <span className="objective-prefix font-bold">]</span>
         </div>
 
         <div className="header-actions">
+          <div className="evidence-counter font-mono">
+            CLUES: <strong>{discoveredEvidence.length} / 12</strong>
+          </div>
           <button
             className={`uv-toggle-btn ${isUV ? 'active' : ''}`}
             onClick={() => dispatch({ type: 'TOGGLE_UV_MODE' })}
