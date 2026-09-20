@@ -40,12 +40,21 @@ export const CaseArchivePage: React.FC = () => {
             state.completedCaseIds.includes('case001') ||
             (state.activeCaseId === 'case-001' && state.caseSolved === true);
 
+          const isCase2Completed =
+            state.completedCaseIds.includes('case-002') ||
+            state.completedCaseIds.includes('case002') ||
+            (state.activeCaseId === 'case-002' && state.caseSolved === true);
+
           const isSolved =
             state.completedCaseIds.includes(c.id) ||
             (state.activeCaseId === c.id && state.caseSolved === true);
 
-          // Lock logic: Case 1 is always unlocked. Case 2 unlocks after Case 1 completion.
-          const isLocked = c.id === 'case-002' && !isCase1Completed;
+          // Lock logic: Case 1 is always unlocked. Case 2 unlocks after Case 1. Case 3 unlocks after Case 2.
+          const isLocked =
+            (c.id === 'case-002' && !isCase1Completed) ||
+            (c.id === 'case-003' && !isCase2Completed);
+
+          const requiredCaseText = c.id === 'case-002' ? 'CASE #001' : 'CASE #002';
 
           const statusText = isSolved ? 'COMPLETED' : isLocked ? 'LOCKED' : 'AVAILABLE';
           const statusClass = isSolved ? 'completed' : isLocked ? 'locked' : 'available';
@@ -85,7 +94,7 @@ export const CaseArchivePage: React.FC = () => {
                   {isLocked ? (
                     <>
                       <Lock size={14} />
-                      <span>CASE FILE SEALED (REQUIRES CASE #001)</span>
+                      <span>CASE FILE SEALED (REQUIRES {requiredCaseText})</span>
                     </>
                   ) : (
                     <>

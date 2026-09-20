@@ -128,7 +128,22 @@ export const CaseIntroductionPage: React.FC = () => {
         </div>
 
         <div className="banner-right">
-          {caseMetadata.id === 'case-002' ? (
+          {caseMetadata.id === 'case-003' ? (
+            <>
+              <div className="marker-item">
+                <span className="dot dot-green"></span>
+                <span>DOORS LOCKED: 20:45</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-red"></span>
+                <span>BLACKOUT: 21:18</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-gold animate-pulse"></span>
+                <span>THEFT DISCOVERED: 21:32</span>
+              </div>
+            </>
+          ) : caseMetadata.id === 'case-002' ? (
             <>
               <div className="marker-item">
                 <span className="dot dot-green"></span>
@@ -177,7 +192,19 @@ export const CaseIntroductionPage: React.FC = () => {
             </div>
 
             <div className="modal-body font-mono">
-              {caseMetadata.id === 'case-002' ? (
+              {caseMetadata.id === 'case-003' ? (
+                <>
+                  <p>
+                    At precisely 21:18 GMT on 14 November 1896, the gas-engine electric dynamo at Ravenwood Gallery abruptly failed, plunging all three exhibition wings into total darkness. The heavy bronze emergency alarm gong failed to sound.
+                  </p>
+                  <p>
+                    When power was restored at 21:30 GMT, inspection of Alcove III revealed the ornate gilt frame of "The Astronomical Quadrant of Tycho Brahe" (1888) empty upon the silk damask wall — unfastened cleanly from its clips without disturbing the picture wire.
+                  </p>
+                  <p className="modal-highlight font-headline">
+                    “How was a four-foot master canvas unmounted, excised with razor precision, and vanished from a guarded hall in 12 minutes of pitch darkness without triggering the emergency gong or breaching rain-soaked perimeter guards?”
+                  </p>
+                </>
+              ) : caseMetadata.id === 'case-002' ? (
                 <>
                   <p>
                     On the evening of 12 November 1895, Professor Adrian Cole was discovered unconscious inside his private study at Highland Estate during a heavy rainstorm. The solid Scottish oak door was bolted from the inside with a mortise deadbolt; the key remained turned in the interior keyway.

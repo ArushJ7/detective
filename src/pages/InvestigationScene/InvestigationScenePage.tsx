@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
 import { Case002StudyScene } from '../../components/game/Case002StudyScene';
+import { Case003GalleryScene } from '../../components/game/Case003GalleryScene';
 import { sfx } from '../../utils/audio';
 import { Sparkles, Play, CheckCircle2, Eye, Pin, X, Search, Compass, AlertCircle } from 'lucide-react';
 import './InvestigationScenePage.css';
@@ -104,6 +105,10 @@ const SCENE_HOTSPOTS: SceneHotspotConfig[] = [
 export const InvestigationScenePage: React.FC = () => {
   const { state, dispatch } = useInvestigation();
   const navigate = useNavigate();
+
+  if (state.activeCaseId === 'case-003') {
+    return <Case003GalleryScene />;
+  }
 
   if (state.activeCaseId === 'case-002') {
     return <Case002StudyScene />;

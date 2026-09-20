@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
 import { Case002DoorInspection } from '../../components/game/Case002DoorInspection';
 import { Case002DecoyInspection } from '../../components/game/Case002DecoyInspection';
+import { Case003DynamoInspection } from '../../components/game/Case003DynamoInspection';
+import { Case003WorkshopInspection } from '../../components/game/Case003WorkshopInspection';
 import { Sparkles, ZoomIn, RotateCw, Contrast, Key, Pin, Edit3, X, CheckCircle2, ShieldAlert } from 'lucide-react';
 import './EvidenceInspectionPage.css';
 
@@ -11,6 +13,14 @@ export const EvidenceInspectionPage: React.FC = () => {
   const navigate = useNavigate();
 
   const item = selectedEvidence || discoveredEvidence[0];
+
+  if (state.activeCaseId === 'case-003' && item?.id === 'EVD-302') {
+    return <Case003DynamoInspection />;
+  }
+
+  if (state.activeCaseId === 'case-003' && (item?.id === 'EVD-305' || item?.id === 'EVD-306')) {
+    return <Case003WorkshopInspection />;
+  }
 
   if (state.activeCaseId === 'case-002' && (item?.id === 'EVD-201' || item?.id === 'EVD-202')) {
     return <Case002DoorInspection />;

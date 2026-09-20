@@ -1,5 +1,6 @@
 import { case001 } from '../cases/case001';
 import { case002 } from '../cases/case002';
+import { case003 } from '../cases/case003';
 import type { CaseDefinition } from '../cases/types';
 
 export const caseRegistry: Record<string, CaseDefinition> = {
@@ -8,6 +9,10 @@ export const caseRegistry: Record<string, CaseDefinition> = {
   'CASE-001': case001,
   'case-002': case002,
   'case002': case002,
-  'CASE-002': case002
+  'CASE-002': case002,
+  'case-003': case003,
+  'case003': case003,
+  'CASE-003': case003
 };
+
 

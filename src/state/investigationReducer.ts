@@ -91,16 +91,30 @@ export function investigationReducer(
 
       CaseManager.setActiveCase(action.payload);
 
+      const isCase3 = targetCase.metadata.id === 'case-003';
       const isCase2 = targetCase.metadata.id === 'case-002';
-      const initialDiscovered = isCase2
+      const initialDiscovered = isCase3
+        ? ['EVD-301', 'EVD-302', 'EVD-303', 'EVD-304', 'EVD-313']
+        : isCase2
         ? ['EVD-201', 'EVD-202', 'EVD-203', 'EVD-205', 'EVD-206']
         : targetCase.evidence.slice(0, 5).map(e => e.id);
 
-      const initialInspected = isCase2
+      const initialInspected = isCase3
+        ? ['EVD-301', 'EVD-302']
+        : isCase2
         ? ['EVD-201', 'EVD-202']
         : targetCase.evidence.slice(0, 2).map(e => e.id);
 
-      const initialCardPositions: Record<string, { x: number; y: number }> = isCase2
+      const initialCardPositions: Record<string, { x: number; y: number }> = isCase3
+        ? {
+            'EVD-301': { x: 60, y: 60 },
+            'EVD-302': { x: 420, y: 60 },
+            'EVD-303': { x: 780, y: 70 },
+            'EVD-304': { x: 80, y: 380 },
+            'EVD-305': { x: 440, y: 390 },
+            'EVD-306': { x: 800, y: 400 }
+          }
+        : isCase2
         ? {
             'EVD-201': { x: 60, y: 60 },
             'EVD-202': { x: 420, y: 60 },
@@ -118,7 +132,12 @@ export function investigationReducer(
             'EVD-004': { x: 800, y: 400 }
           };
 
-      const initialConnections = isCase2
+      const initialConnections = isCase3
+        ? [
+            { id: 'conn-301', sourceId: 'EVD-301', targetId: 'EVD-304', label: 'Frame & Footprint Match' },
+            { id: 'conn-302', sourceId: 'EVD-302', targetId: 'EVD-303', label: 'Blackout & Gong Disconnect' }
+          ]
+        : isCase2
         ? [
             { id: 'conn-201', sourceId: 'EVD-201', targetId: 'EVD-202', label: 'Door Lock Assembly' },
             { id: 'conn-204', sourceId: 'EVD-204', targetId: 'EVD-207', label: 'Transdermal Contact' }
@@ -128,7 +147,21 @@ export function investigationReducer(
             { id: 'conn-2', sourceId: 'EVD-005', targetId: 'EVD-009', label: '21:24 Telemetry Match' }
           ];
 
-      const initialNotes = isCase2
+      const initialNotes = isCase3
+        ? [
+            {
+              id: 'note-301',
+              type: 'theory' as const,
+              title: '12-Minute Blackout Paradox',
+              content: 'The electric arc lights and frame alarms died simultaneously at 21:18 GMT when the sub-basement dynamo breaker was manually tripped (EVD-302).',
+              annotation: 'IMPORTANT' as const,
+              createdAt: '21:35 GMT',
+              relatedEvidenceId: 'EVD-302',
+              relatedSuspectId: 'julian-vance',
+              relatedTimelineEventId: 'evt-3018'
+            }
+          ]
+        : isCase2
         ? [
             {
               id: 'note-201',
@@ -156,11 +189,22 @@ export function investigationReducer(
         unlockedVaultItemIds: [],
         boardConnections: initialConnections,
         cardPositions: initialCardPositions,
-        workingHypothesis: isCase2
+        workingHypothesis: isCase3
+          ? 'A master painting vanished from Alcove III during a 12-minute blackout (21:18-21:30 GMT). Reconstruct who had access and locate the stolen canvas.'
+          : isCase2
           ? 'Professor Cole was found unconscious inside a study deadbolted from the inside. Determine how the poisoning occurred and why the 21:42 thud occurred.'
           : initialInvestigationState.workingHypothesis,
-        questionedSuspectIds: isCase2 ? ['dr-evelyn-reed', 'arthur-vance'] : ['james-blackwood', 'martha-caldwell'],
-        unlockedTopicIds: isCase2
+        questionedSuspectIds: isCase3
+          ? ['julian-vance', 'arthur-pendelton']
+          : isCase2
+          ? ['dr-evelyn-reed', 'arthur-vance']
+          : ['james-blackwood', 'martha-caldwell'],
+        unlockedTopicIds: isCase3
+          ? {
+              'julian-vance': ['topic-vance-alibi'],
+              'arthur-pendelton': ['topic-pendelton-gong']
+            }
+          : isCase2
           ? {
               'dr-evelyn-reed': ['topic-reed-2030'],
               'arthur-vance': ['topic-vance-door']
@@ -168,15 +212,15 @@ export function investigationReducer(
           : initialInvestigationState.unlockedTopicIds,
         discoveredContradictionIds: [],
         notes: initialNotes,
-        selectedLocationId: isCase2 ? 'cole-study' : 'drawing-room',
+        selectedLocationId: isCase3 ? 'ravenwood-main-hall' : isCase2 ? 'cole-study' : 'drawing-room',
         selectedEvidenceId: targetCase.evidence[0]?.id || null,
         selectedSuspectId: targetCase.suspects[0]?.id || null,
         deductionDraft: {
           culpritId: null,
           methodId: null,
           motiveId: null,
-          selectedEvidenceIds: isCase2 ? ['EVD-201', 'EVD-204'] : ['EVD-001', 'EVD-004'],
-          selectedTimelineEventIds: isCase2 ? ['evt-2103'] : ['evt-2124'],
+          selectedEvidenceIds: isCase3 ? ['EVD-301', 'EVD-302'] : isCase2 ? ['EVD-201', 'EVD-204'] : ['EVD-001', 'EVD-004'],
+          selectedTimelineEventIds: isCase3 ? ['evt-3018'] : isCase2 ? ['evt-2103'] : ['evt-2124'],
           theoryText: ''
         },
         deductionSubmitted: false,
