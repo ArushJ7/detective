@@ -162,6 +162,7 @@ export interface DeductionDraft {
 }
 
 export interface InvestigationState {
+  activeCaseId: string;
   caseId: string;
   caseTitle: string;
   currentObjective: string;
@@ -187,6 +188,7 @@ export interface InvestigationState {
 }
 
 export type InvestigationAction =
+  | { type: 'SWITCH_CASE'; payload: string }
   | { type: 'DISCOVER_EVIDENCE'; payload: string }
   | { type: 'INSPECT_EVIDENCE'; payload: string }
   | { type: 'UNLOCK_VAULT_ITEM'; payload: string }

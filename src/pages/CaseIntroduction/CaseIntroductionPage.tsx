@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInvestigation } from '../../state/InvestigationContext';
 import { DoorOpen, FileText, Lock, Users, Fingerprint, X, Volume2 } from 'lucide-react';
 import { sfx } from '../../utils/audio';
 import { TypewriterText } from '../../components/ui/TypewriterText';
@@ -7,6 +8,7 @@ import './CaseIntroductionPage.css';
 
 export const CaseIntroductionPage: React.FC = () => {
   const navigate = useNavigate();
+  const { caseMetadata, evidenceList, suspectsList } = useInvestigation();
   const [showBriefModal, setShowBriefModal] = useState<boolean>(false);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
@@ -43,7 +45,7 @@ export const CaseIntroductionPage: React.FC = () => {
       <div className="intro-top-docket font-mono">
         <div className="docket-tag-group">
           <span className="ping-dot"></span>
-          <span className="docket-id">ARCHIVE DOCKET: SY-1894-CR-001</span>
+          <span className="docket-id">ARCHIVE DOCKET: {caseMetadata.caseNumber}</span>
           <span className="divider-slash">/</span>
           <span className="docket-sub">SCOTLAND YARD CRIMINAL INVESTIGATION DEPT.</span>
         </div>
@@ -57,11 +59,11 @@ export const CaseIntroductionPage: React.FC = () => {
       <div className="intro-main-content">
         <div className="incident-date-row font-mono">
           <span className="gold-dash"></span>
-          <span>BLACKWOOD ESTATE · 14 OCTOBER · 22:47 BST</span>
+          <span>{caseMetadata.location.toUpperCase()} · {caseMetadata.year}</span>
         </div>
 
         <h1 className="intro-monumental-title font-headline">
-          THE MISSING NECKLACE
+          {caseMetadata.title.toUpperCase()}
         </h1>
 
         {/* Typewritten Incident Summary Card */}
@@ -69,11 +71,11 @@ export const CaseIntroductionPage: React.FC = () => {
           <div className="card-top-tab"></div>
 
           <p className="ledger-quote font-headline">
-            “<TypewriterText text="A priceless Queen of Solms diamond necklace has vanished from a double-locked vitrine during the annual winter solstice banquet." speed={20} />”
+            “<TypewriterText text={caseMetadata.synopsis} speed={20} />”
           </p>
 
           <p className="ledger-body font-mono">
-            Four guests remain sequestered inside the estate. Midnight rain torrents have washed out the Blackwood ravine bridge. Telephone lines have been severed. The culprit is still inside these walls.
+            {caseMetadata.fullReportBody.split('\n\n')[0]}
           </p>
 
           {/* Quick Case Manifest Stats */}
@@ -81,17 +83,17 @@ export const CaseIntroductionPage: React.FC = () => {
             <div className="stat-pill">
               <Lock size={14} className="text-gold" />
               <span className="stat-label">SCENE:</span>
-              <span className="stat-val">DRAWING ROOM VITRINE</span>
+              <span className="stat-val">{caseMetadata.subtitle.toUpperCase()}</span>
             </div>
             <div className="stat-pill">
               <Users size={14} className="text-red" />
               <span className="stat-label">SUSPECTS:</span>
-              <span className="stat-val">4 REMAINING</span>
+              <span className="stat-val">{suspectsList.length} REMAINING</span>
             </div>
             <div className="stat-pill">
               <Fingerprint size={14} className="text-green" />
               <span className="stat-label">LEADS:</span>
-              <span className="stat-val">12 UNRESOLVED</span>
+              <span className="stat-val">{evidenceList.length} UNRESOLVED</span>
             </div>
           </div>
         </div>

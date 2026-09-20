@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { CANONICAL_LOCATIONS } from '../../data/locations';
-import { CANONICAL_TIMELINE } from '../../data/timeline';
 import type { EstateLocation } from '../../state/types';
 import {
   FileText,
@@ -14,12 +12,12 @@ import {
 import './CaseMapPage.css';
 
 export const CaseMapPage: React.FC = () => {
-  const { state, dispatch, suspectsList, discoveredEvidence } = useInvestigation();
+  const { state, dispatch, suspectsList, discoveredEvidence, locationsList, timelineEvents } = useInvestigation();
   const navigate = useNavigate();
 
   const selectedLocId = state.selectedLocationId || 'drawing-room';
   const selectedLocation: EstateLocation =
-    CANONICAL_LOCATIONS.find(l => l.id === selectedLocId) || CANONICAL_LOCATIONS[0];
+    locationsList.find(l => l.id === selectedLocId) || locationsList[0];
 
   const handleSelectLocation = (id: string) => {
     dispatch({ type: 'SELECT_LOCATION', payload: id });
@@ -36,7 +34,7 @@ export const CaseMapPage: React.FC = () => {
   );
 
   // Timeline events related to location
-  const locationEvents = CANONICAL_TIMELINE.filter(evt =>
+  const locationEvents = timelineEvents.filter(evt =>
     selectedLocation.timelineEventIds.includes(evt.id)
   );
 
@@ -52,7 +50,7 @@ export const CaseMapPage: React.FC = () => {
 
         <div className="header-right font-mono">
           <div className="map-stats-badge">
-            LOCATIONS SURVEYED: <strong>{CANONICAL_LOCATIONS.length}</strong>
+            LOCATIONS SURVEYED: <strong>{locationsList.length}</strong>
           </div>
         </div>
       </header>
@@ -73,7 +71,7 @@ export const CaseMapPage: React.FC = () => {
           </div>
 
           {/* Location Hotspot Pins */}
-          {CANONICAL_LOCATIONS.map(loc => {
+          {locationsList.map(loc => {
             const isSelected = selectedLocation.id === loc.id;
             const evidenceCount = loc.evidenceIds.filter(id =>
               state.discoveredEvidenceIds.includes(id)

@@ -1,15 +1,19 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import type { ReactNode } from 'react';
-import type { InvestigationState, InvestigationAction, EvidenceItem, Suspect } from './types';
+import type { InvestigationState, InvestigationAction, EvidenceItem, Suspect, TimelineEvent, EstateLocation } from './types';
+import type { CaseDefinition, CaseMetadata } from '../engine';
 import { initialInvestigationState, investigationReducer } from './investigationReducer';
-import { INITIAL_EVIDENCE } from '../data/evidence';
-import { INITIAL_SUSPECTS } from '../data/suspects';
+import { CaseManager } from '../engine';
 
 interface InvestigationContextType {
   state: InvestigationState;
   dispatch: React.Dispatch<InvestigationAction>;
+  activeCase: CaseDefinition;
+  caseMetadata: CaseMetadata;
   evidenceList: EvidenceItem[];
   suspectsList: Suspect[];
+  timelineEvents: TimelineEvent[];
+  locationsList: EstateLocation[];
   discoveredEvidence: EvidenceItem[];
   vaultEvidence: EvidenceItem[];
   selectedEvidence: EvidenceItem | null;
@@ -21,8 +25,12 @@ const InvestigationContext = createContext<InvestigationContextType | undefined>
 export const InvestigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(investigationReducer, initialInvestigationState);
 
-  const evidenceList = INITIAL_EVIDENCE;
-  const suspectsList = INITIAL_SUSPECTS;
+  const activeCase = CaseManager.getCase(state.activeCaseId) || CaseManager.getActiveCase();
+  const caseMetadata = activeCase.metadata;
+  const evidenceList = activeCase.evidence;
+  const suspectsList = activeCase.suspects;
+  const timelineEvents = activeCase.timeline;
+  const locationsList = activeCase.locations;
 
   const discoveredEvidence = evidenceList.filter(e =>
     state.discoveredEvidenceIds.includes(e.id)
@@ -38,8 +46,12 @@ export const InvestigationProvider: React.FC<{ children: ReactNode }> = ({ child
       value={{
         state,
         dispatch,
+        activeCase,
+        caseMetadata,
         evidenceList,
         suspectsList,
+        timelineEvents,
+        locationsList,
         discoveredEvidence,
         vaultEvidence,
         selectedEvidence,

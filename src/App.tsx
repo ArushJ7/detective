@@ -16,6 +16,7 @@ import { DetectiveNotebookPage } from './pages/DetectiveNotebook/DetectiveNotebo
 import { CaseMapPage } from './pages/CaseMap/CaseMapPage';
 import { FinalDeductionPage } from './pages/FinalDeduction/FinalDeductionPage';
 import { CaseResolutionPage } from './pages/CaseResolution/CaseResolutionPage';
+import { CaseArchivePage } from './pages/CaseArchive/CaseArchivePage';
 
 import './styles/globals.css';
 
@@ -46,6 +47,8 @@ export const App: React.FC = () => {
               <Route path="/estate-map" element={<CaseMapPage />} />
               <Route path="/deduction" element={<FinalDeductionPage />} />
               <Route path="/resolution" element={<CaseResolutionPage />} />
+              <Route path="/cases" element={<CaseArchivePage />} />
+              <Route path="/archive" element={<CaseArchivePage />} />
               <Route path="*" element={<Navigate to="/intro" replace />} />
             </Routes>
           </main>

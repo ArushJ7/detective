@@ -2,16 +2,17 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
 import { sfx } from '../../utils/audio';
-import { Eye, Shield, FileText, Lock, Users, MessageSquare, Clock, BookOpen, Compass, Brain, MapPin, Sparkles, Target, ShieldCheck } from 'lucide-react';
+import { Eye, Shield, FileText, Lock, Users, MessageSquare, Clock, BookOpen, Compass, Brain, MapPin, Sparkles, Target, ShieldCheck, Folder } from 'lucide-react';
 import './GameHeader.css';
 
 export const GameHeader: React.FC = () => {
-  const { state, dispatch, discoveredEvidence } = useInvestigation();
+  const { state, dispatch, discoveredEvidence, caseMetadata, evidenceList } = useInvestigation();
   const location = useLocation();
 
   const isUV = state.uvModeActive;
 
   const navItems = [
+    { path: '/cases', label: 'CASES', icon: Folder },
     { path: '/scene', label: 'THE SCENE', icon: MapPin },
     { path: '/evidence-board', label: 'EVIDENCE BOARD', icon: FileText, badge: state.boardConnections.length },
     { path: '/inspection', label: 'INSPECTION', icon: Eye },
@@ -37,8 +38,8 @@ export const GameHeader: React.FC = () => {
         <div className="header-brand">
           <Shield className="header-logo-icon" size={20} />
           <div className="header-brand-titles">
-            <span className="case-tag">CASE FILE #001 — CONFIDENTIAL</span>
-            <span className="case-title font-headline">The Missing Necklace · Blackwood Estate</span>
+            <span className="case-tag">CASE FILE #{caseMetadata.caseNumber} — CONFIDENTIAL</span>
+            <span className="case-title font-headline">{caseMetadata.title} · {caseMetadata.subtitle}</span>
           </div>
         </div>
 
@@ -52,7 +53,7 @@ export const GameHeader: React.FC = () => {
 
         <div className="header-actions">
           <div className="evidence-counter font-mono">
-            CLUES: <strong>{discoveredEvidence.length} / 12</strong>
+            CLUES: <strong>{discoveredEvidence.length} / {evidenceList.length}</strong>
           </div>
           <button
             className={`uv-toggle-btn ${isUV ? 'active' : ''}`}

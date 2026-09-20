@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { DEDUCTION_OPTIONS } from '../../data/case001/truth';
-import { INITIAL_SUSPECTS } from '../../data/suspects';
-import { INITIAL_EVIDENCE } from '../../data/evidence';
-import { CANONICAL_TIMELINE } from '../../data/timeline';
 import { Shield, FileCheck, AlertTriangle, Lock, UserCheck, Zap, Coins, Clock, ArrowRight, RotateCcw } from 'lucide-react';
 import './FinalDeductionPage.css';
 
 export const FinalDeductionPage: React.FC = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useInvestigation();
+  const { state, dispatch, activeCase, suspectsList, discoveredEvidence, timelineEvents } = useInvestigation();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const { culpritId, methodId, motiveId, selectedEvidenceIds, selectedTimelineEventIds, theoryText } = state.deductionDraft;
-
-  const discoveredEvidence = INITIAL_EVIDENCE.filter(e => state.discoveredEvidenceIds.includes(e.id));
+  const deductionOptions = activeCase.deductionOptions;
 
   const handleSelectCulprit = (id: string) => {
     dispatch({ type: 'SET_DEDUCTION_CULPRIT', payload: id === culpritId ? null : id });
@@ -56,11 +51,11 @@ export const FinalDeductionPage: React.FC = () => {
         <div className="deduction-header-left">
           <div className="deduction-badge">
             <Shield size={16} />
-            <span>METROPOLITAN POLICE · CASE #001 ACCUSATION</span>
+            <span>METROPOLITAN POLICE · CASE #{activeCase.metadata.caseNumber} ACCUSATION</span>
           </div>
           <h1 className="deduction-title">Final Accusation Dossier</h1>
           <p className="deduction-subtitle">
-            Synthesize your findings and assemble the formal indictment against the perpetrator of Blackwood Hall.
+            Synthesize your findings and assemble the formal indictment for {activeCase.metadata.title}.
           </p>
         </div>
         <div className="deduction-header-right">
@@ -79,10 +74,10 @@ export const FinalDeductionPage: React.FC = () => {
             <UserCheck size={18} className="section-icon" />
             <h2>PRIMARY ACCUSED · THE CULPRIT</h2>
           </div>
-          <p className="section-instruction">Select the individual responsible for the theft of the Star of Blackwood Diamond.</p>
+          <p className="section-instruction">Select the individual responsible for the perpetrator actions in {activeCase.metadata.title}.</p>
 
           <div className="suspect-selection-grid">
-            {INITIAL_SUSPECTS.map(suspect => {
+            {suspectsList.map(suspect => {
               const isSelected = culpritId === suspect.id;
               return (
                 <div
@@ -115,10 +110,10 @@ export const FinalDeductionPage: React.FC = () => {
             <Zap size={18} className="section-icon" />
             <h2>METHOD OF BREACH & SABOTAGE</h2>
           </div>
-          <p className="section-instruction">Determine how Vitrine #04 was breached without triggering the alarm mechanism.</p>
+          <p className="section-instruction">Determine how the crime was executed without triggering alarms.</p>
 
           <div className="option-selection-list">
-            {DEDUCTION_OPTIONS.methods.map(method => {
+            {deductionOptions.methods.map(method => {
               const isSelected = methodId === method.id;
               return (
                 <div
@@ -144,7 +139,7 @@ export const FinalDeductionPage: React.FC = () => {
           <p className="section-instruction">Select the financial, personal, or legal driver behind the perpetrator's actions.</p>
 
           <div className="option-selection-list">
-            {DEDUCTION_OPTIONS.motives.map(motive => {
+            {deductionOptions.motives.map(motive => {
               const isSelected = motiveId === motive.id;
               return (
                 <div
@@ -199,7 +194,7 @@ export const FinalDeductionPage: React.FC = () => {
           <p className="section-instruction">Attach key timestamps from your event chronology to establish the window of opportunity.</p>
 
           <div className="timeline-selection-list">
-            {CANONICAL_TIMELINE.map(event => {
+            {timelineEvents.map(event => {
               const isSelected = selectedTimelineEventIds.includes(event.id);
               return (
                 <div

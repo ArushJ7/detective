@@ -1,7 +1,8 @@
 import type { InvestigationState, InvestigationAction } from './types';
-import { validateDeduction } from '../data/case001/validation';
+import { CaseManager } from '../engine/CaseManager';
 
 export const initialInvestigationState: InvestigationState = {
+  activeCaseId: 'case-001',
   caseId: 'CASE-001',
   caseTitle: 'The Missing Necklace',
   currentObjective: 'Synthesize clues, inspect location contexts, and record working theories in your notebook.',
@@ -83,6 +84,23 @@ export function investigationReducer(
   action: InvestigationAction
 ): InvestigationState {
   switch (action.type) {
+    case 'SWITCH_CASE': {
+      const targetCase = CaseManager.getCase(action.payload);
+      if (!targetCase) return state;
+
+      CaseManager.setActiveCase(action.payload);
+      return {
+        ...initialInvestigationState,
+        activeCaseId: action.payload,
+        caseId: targetCase.metadata.id,
+        caseTitle: targetCase.metadata.title,
+        discoveredEvidenceIds: targetCase.evidence.slice(0, 5).map(e => e.id),
+        inspectedEvidenceIds: targetCase.evidence.slice(0, 2).map(e => e.id),
+        selectedEvidenceId: targetCase.evidence[0]?.id || null,
+        selectedSuspectId: targetCase.suspects[0]?.id || null
+      };
+    }
+
     case 'DISCOVER_EVIDENCE': {
       if (state.discoveredEvidenceIds.includes(action.payload)) return state;
 
@@ -301,9 +319,7 @@ export function investigationReducer(
       };
 
     case 'SUBMIT_DEDUCTION': {
-      // Import validation logic
-      // We will import validateDeduction at top of file
-      const result = validateDeduction(state.deductionDraft);
+      const result = CaseManager.validateCaseDeduction(state.activeCaseId, state.deductionDraft);
       return {
         ...state,
         deductionSubmitted: true,
