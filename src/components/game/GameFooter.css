@@ -1,0 +1,69 @@
+.game-footer {
+  background-color: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-subtle);
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  position: relative;
+  z-index: 90;
+  margin-top: auto;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-icon {
+  color: var(--color-primary);
+}
+
+.text-amber {
+  color: var(--color-accent-amber);
+}
+
+.footer-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--color-border-subtle);
+}
+
+.footer-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.hint-ticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 3px 12px;
+}
+
+.uv-ticker {
+  color: var(--color-accent-cyan);
+  background: var(--color-accent-cyan-dim);
+  border-color: var(--color-accent-cyan);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+}
+
+.confidential-stamp {
+  color: var(--color-accent-red);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}

@@ -1,0 +1,132 @@
+.deduction-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.deduction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 14px;
+}
+
+.deduction-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.deduction-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.deduction-status {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.deduction-status strong {
+  color: var(--color-primary);
+}
+
+.deduction-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.deduction-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-medium);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-heading {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  padding: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: 0.8rem;
+}
+
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--color-border-medium);
+}
+
+.option-btn.selected {
+  background: var(--color-primary-dim);
+  border-color: var(--color-primary);
+}
+
+.radio-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-border-medium);
+  border-radius: 50% !important;
+  flex-shrink: 0;
+}
+
+.option-btn.selected .radio-dot {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+.deduction-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn-submit-accusation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-accent-red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 16px 32px;
+  transition: var(--transition-fast);
+}
+
+.btn-submit-accusation:hover:not(:disabled) {
+  background: #d95338;
+  box-shadow: var(--shadow-crimson-glow);
+}
+
+.btn-submit-accusation:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

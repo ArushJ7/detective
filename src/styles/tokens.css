@@ -1,0 +1,60 @@
+:root {
+  /* Color Palette - Deep Forensic Noir */
+  --color-bg-primary: #0a0b0e;
+  --color-bg-secondary: #12151c;
+  --color-bg-tertiary: #1a1e28;
+  --color-bg-card: #151922;
+  --color-bg-card-hover: #1c2230;
+  --color-bg-overlay: rgba(10, 11, 14, 0.85);
+
+  /* Brand / Primary Accent (Warm Aged Gold / Brass) */
+  --color-primary: #c9a86a;
+  --color-primary-hover: #d8b879;
+  --color-primary-active: #b89759;
+  --color-primary-dim: rgba(201, 168, 106, 0.15);
+  --color-primary-glow: rgba(201, 168, 106, 0.25);
+
+  /* Functional Accents */
+  --color-accent-red: #c84b31;        /* Crimson Clue / Stamp Red */
+  --color-accent-red-dim: rgba(200, 75, 49, 0.15);
+  --color-accent-amber: #d97706;      /* Cautionary / Warning */
+  --color-accent-amber-dim: rgba(217, 119, 6, 0.15);
+  --color-accent-cyan: #22d3ee;       /* UV Mode / Forensic Cyan */
+  --color-accent-cyan-dim: rgba(34, 211, 238, 0.15);
+  --color-accent-green: #10b981;      /* Verified / Solved */
+  --color-accent-green-dim: rgba(16, 185, 129, 0.15);
+
+  /* Text Colors */
+  --color-text-primary: #e2e8f0;     /* Paper White */
+  --color-text-secondary: #94a3b8;   /* Muted Slate */
+  --color-text-tertiary: #64748b;    /* Dim / Watermark */
+  --color-text-gold: #c9a86a;        /* Gold Accent Text */
+  --color-text-red: #f87171;         /* Crimson Warning Text */
+  --color-text-cyan: #38bdf8;        /* UV Text */
+
+  /* Borders & Dividers */
+  --color-border-subtle: rgba(201, 168, 106, 0.2);
+  --color-border-medium: rgba(201, 168, 106, 0.4);
+  --color-border-strong: #c9a86a;
+  --color-border-red: rgba(200, 75, 49, 0.5);
+  --color-border-cyan: rgba(34, 211, 238, 0.5);
+
+  /* Shadows & Glows */
+  --shadow-gold-glow: 0 0 25px rgba(201, 168, 106, 0.2);
+  --shadow-uv-glow: 0 0 30px rgba(34, 211, 238, 0.3);
+  --shadow-crimson-glow: 0 0 25px rgba(200, 75, 49, 0.3);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  /* Typography Fonts */
+  --font-headline: 'Cinzel', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
+
+  /* Strict Design Rule: Razor Sharp Edges */
+  --border-radius: 0px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}

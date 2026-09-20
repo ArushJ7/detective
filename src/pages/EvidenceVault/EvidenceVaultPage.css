@@ -1,0 +1,248 @@
+.vault-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vault-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 14px;
+}
+
+.vault-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.vault-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.vault-status {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.vault-status strong {
+  color: var(--color-primary);
+}
+
+.vault-layout {
+  display: flex;
+  gap: 24px;
+  min-height: 480px;
+}
+
+.vault-roster {
+  width: 320px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+}
+
+.roster-header {
+  padding: 14px 16px;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.roster-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.vault-roster-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.vault-roster-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.vault-roster-item.active {
+  background: var(--color-primary-dim);
+  border-left: 3px solid var(--color-primary);
+}
+
+.roster-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-id {
+  font-size: 0.65rem;
+  color: var(--color-primary);
+}
+
+.item-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.status-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+}
+
+.status-badge.unlocked {
+  color: var(--color-accent-green);
+  border: 1px solid var(--color-accent-green);
+}
+
+.status-badge.locked {
+  color: var(--color-accent-red);
+  border: 1px solid var(--color-accent-red);
+}
+
+.vault-main-panel {
+  flex: 1;
+}
+
+.vault-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-medium);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.vault-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vault-item-title {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.vault-item-sub {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.unlocked-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.unlocked-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-accent-green-dim);
+  border: 1px solid var(--color-accent-green);
+  color: var(--color-accent-green);
+  padding: 12px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.unlocked-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-notes {
+  background: var(--color-bg-secondary);
+  border-left: 3px solid var(--color-accent-green);
+  padding: 14px;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.keypad-lock-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 40px 20px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.keypad-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.lock-icon {
+  color: var(--color-accent-red);
+}
+
+.lock-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.keypad-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.passcode-input-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.passcode-input {
+  flex: 1;
+  padding: 12px;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.btn-unlock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary);
+  color: var(--color-bg-primary);
+  font-weight: 700;
+  padding: 0 18px;
+  transition: var(--transition-fast);
+}
+
+.btn-unlock:hover {
+  background: var(--color-primary-hover);
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-accent-red);
+  font-size: 0.75rem;
+}

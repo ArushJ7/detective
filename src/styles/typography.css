@@ -1,0 +1,89 @@
+/* Typography System */
+
+.font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Headings */
+h1, .h1 {
+  font-family: var(--font-headline);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+h2, .h2 {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.05em;
+}
+
+h3, .h3 {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+}
+
+/* Metadata & Stamp Labels */
+.label-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-secondary);
+}
+
+.label-stamp-gold {
+  color: var(--color-primary);
+  border-color: var(--color-border-medium);
+  background: var(--color-primary-dim);
+}
+
+.label-stamp-red {
+  color: var(--color-accent-red);
+  border-color: var(--color-border-red);
+  background: var(--color-accent-red-dim);
+}
+
+.label-stamp-cyan {
+  color: var(--color-accent-cyan);
+  border-color: var(--color-border-cyan);
+  background: var(--color-accent-cyan-dim);
+}
+
+.label-stamp-green {
+  color: var(--color-accent-green);
+  border-color: var(--color-border-medium);
+  background: var(--color-accent-green-dim);
+}
+
+/* Watermark Text */
+.watermark {
+  font-family: var(--font-headline);
+  color: rgba(201, 168, 106, 0.05);
+  font-weight: 900;
+  user-select: none;
+  pointer-events: none;
+  text-transform: uppercase;
+}

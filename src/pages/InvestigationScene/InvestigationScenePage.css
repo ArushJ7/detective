@@ -1,0 +1,174 @@
+.scene-page-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scene-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 14px;
+}
+
+.scene-room-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.scene-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.uv-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent-cyan-dim);
+  border: 1px solid var(--color-accent-cyan);
+  color: var(--color-accent-cyan);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.scene-viewport {
+  height: 420px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+.scene-background-placeholder {
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(10, 11, 14, 0.4), rgba(10, 11, 14, 0.7)),
+    url('/assets/drawing_room.png') center/cover no-repeat;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scene-watermark {
+  font-size: 3rem;
+  opacity: 0.15;
+}
+
+/* Scene Hotspots Positioned */
+.scene-hotspot {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.hotspot-pos-1 { top: 35%; left: 25%; }
+.hotspot-pos-2 { top: 60%; left: 45%; }
+.hotspot-pos-3 { top: 40%; left: 70%; }
+.hotspot-pos-4 { top: 75%; left: 80%; }
+.hotspot-pos-5 { top: 25%; left: 85%; }
+
+.hotspot-pulse {
+  width: 24px;
+  height: 24px;
+  border-radius: 50% !important;
+  background: var(--color-primary-dim);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-gold-glow);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.uv-hotspot .hotspot-pulse {
+  background: var(--color-accent-cyan-dim);
+  border-color: var(--color-accent-cyan);
+  box-shadow: var(--shadow-uv-glow);
+  animation: pulseUV 1.5s infinite ease-in-out;
+}
+
+.hotspot-tag {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-medium);
+  color: var(--color-text-primary);
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+.scene-hotspot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.list-heading {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+}
+
+.hotspots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.hotspot-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
+  padding: 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hotspot-card:hover {
+  border-color: var(--color-border-medium);
+  background: var(--color-bg-card-hover);
+}
+
+.hotspot-card.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-dim);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ev-type {
+  font-size: 0.65rem;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.card-loc {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
+
+.uv-clue-badge {
+  color: var(--color-accent-cyan);
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
