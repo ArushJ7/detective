@@ -1,113 +1,169 @@
-import type { Suspect } from '../../state/types';
+import type { Suspect, StatementContradiction } from '../../state/types';
 
 export const INITIAL_SUSPECTS: Suspect[] = [
   {
     id: 'james-blackwood',
     name: 'James Blackwood',
-    role: 'Eldest Son & Heir',
+    role: 'Nephew & Sole Heir',
     avatar: 'JB',
-    bio: '34 years old. Former naval officer with a reputation for high-stakes gambling in Mayfair clubs.',
-    alibi: 'Claims he was on the terrace smoking from 21:15 to 21:35 continuously during the power outage.',
-    motive: 'In severe debt (£14,200) to London bookmakers; facing immediate public ruin and legal action.',
+    age: '42 Years',
+    domicile: 'South Kensington, London',
+    financialStatus: 'Indebted to London Syndicates (£14,200)',
+    bio: 'Former naval officer with a reputation for high-stakes gambling in Mayfair clubs. Arrived unannounced at Blackwood Hall on Thursday evening despite an explicit cablegram from Lord Blackwood refusing an audience.',
+    alibi: 'Claims he was in the wine cellar retrieving vintage claret from 21:20 to 21:45.',
+    alibiDiscrepancy: 'Butler Hastings testifies wine cellar descent took place at 21:38, leaving 18 unaccounted minutes between dinner conclusion and the reported scream.',
+    statement: '“I never set foot inside the drawing room after dinner commenced. I was in the wine cellar retrieving vintage claret from 21:20 to 21:45. Uncle knew very well the cellar key was kept on the pantry hook. Anyone could have gone down there.”',
+    statementTime: '23:40 GMT',
+    motive: 'In severe debt (£14,200) to London bookmakers; facing immediate public ruin and legal action. Disinherited in revised draft will.',
     suspicionLevel: 'High',
+    behavioralCue: 'Avoids eye contact whenever vitrine lock is mentioned. Left thumb rubbing gold signet ring frantically.',
+    composureStatus: 'CRACKING (NERVOUS POSTURE)',
+    pulseBpm: 114,
+    tags: ['DEBTOR', 'NERVOUS', 'HIGH RISK'],
+    imagePath: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400',
     keyObservations: [
       'Nervous disposition during questioning; keeps checking pocket watch.',
-      'Smells of fresh Turkish tobacco identical to cigarettes found on balcony.',
-      'Faint pink paraffin wax residue detected under fingernails of left hand.'
+      'Smells of fresh Turkish tobacco identical to cigarettes found on balcony balustrade.',
+      'Faint pink paraffin wax residue detected under fingernails of left hand.',
+      'Bespoke Oxford boot heels match wet size 11 tread impressions near basement stairwell.'
     ],
+    linkedEvidenceIds: ['EVD-001', 'EVD-003', 'EVD-004', 'EVD-006', 'EVD-008', 'EVD-009', 'EVD-011', 'EVD-012'],
+    timelineEventIds: ['evt-2115', 'evt-2124', 'evt-2131', 'evt-2138'],
     interrogationTopics: [
       {
         id: 'topic-alibi',
-        title: 'Terrace Alibi at 21:24',
-        prompt: 'Where exactly were you when the lights went out at 21:24?',
-        response: 'I was outside on the balcony, leaning against the balustrade smoking a cigarette. I saw the lights flicker off inside, but assumed it was a routine power generator spike.',
-        revealsTruth: false
+        title: 'Wine Cellar Alibi vs Butler Testimony',
+        prompt: 'Your butler Hastings claims you didn\'t reach the wine cellar until 21:38. Where were you at 21:24 during the blackout?',
+        response: 'I... I stepped onto the terrace balustrade to light a cigarette before going downstairs! The blackout caught me off guard. You cannot scrutinize every minute of a dark evening!',
+        category: 'alibi',
+        revealsTruth: false,
+        contradictionDiscoveredId: 'con-1'
       },
       {
         id: 'topic-debts',
-        title: 'Gambling Debts & Ledger',
-        prompt: 'We found a Mayfair Club ledger entry for £14,200 under your name.',
-        response: '...That is a private matter! Fine, yes, I owe money. But I would never rob my own family estate. I was planning to ask mother for a loan tomorrow.',
+        title: 'Mayfair Bookmaker Debt (£14,200)',
+        prompt: 'We recovered a Mayfair Syndicate ledger demanding £14,200 due midnight 20th September.',
+        response: '...That is a private matter! Fine, yes, I owe money. But I would never rob my family estate. I came to ask my mother for an emergency loan!',
+        category: 'motive',
         revealsTruth: true,
         unlocksEvidenceId: 'EVD-003'
       },
       {
         id: 'topic-wax',
-        title: 'Paraffin Wax Residue',
-        prompt: 'Forensic testing found jeweler\'s impressioning wax in your coat pocket.',
-        response: 'That... that jacket was borrowed! I left it in the coat rack earlier. Anyone could have slipped something into the pocket while I was out on the terrace!',
+        title: 'Pink Paraffin Wax Residue',
+        prompt: 'Forensic testing found jeweler\'s impressioning wax in your coat pocket matching Lock #04 residue.',
+        category: 'evidence',
+        requiredEvidenceId: 'EVD-004',
+        response: 'That jacket was left on the coat rack all evening! Anyone could have slipped something into the pocket while I was out on the terrace!',
         revealsTruth: true,
-        unlocksEvidenceId: 'EVD-004'
+        unlocksEvidenceId: 'EVD-004',
+        contradictionDiscoveredId: 'con-2'
       },
       {
         id: 'topic-fuse',
-        title: 'Basement Breaker Trip',
-        prompt: 'The CCTV footage shows someone of your exact build moving to the basement at 21:20.',
-        response: 'Nonsense! Infrared camera angles are notoriously distorted. You cannot prove that silhouette was me!',
+        title: 'Basement Breaker CCTV Telemetry',
+        prompt: 'CCTV telemetry records a 6ft silhouette tripping the main electrical breaker in the basement at 21:24:02.',
+        category: 'evidence',
+        requiredEvidenceId: 'EVD-005',
+        response: 'Infrared cameras distort shapes! You cannot prove that silhouette was me from a shadowy feed!',
         revealsTruth: true,
-        unlocksEvidenceId: 'EVD-009'
+        unlocksEvidenceId: 'EVD-009',
+        contradictionDiscoveredId: 'con-3'
       }
     ]
   },
   {
-    id: 'victoria-vane',
-    name: 'Victoria Vane',
-    role: 'Head Housekeeper & Curator',
-    avatar: 'VV',
-    bio: '52 years old. Has served the Blackwood household for 22 years. Meticulous keeper of the vitrine collection.',
-    alibi: 'Was in the butler\'s pantry preparing evening tea service when the lights failed.',
-    motive: 'Recently expressed resentment over unpaid overtime and strict estate security policies.',
+    id: 'martha-caldwell',
+    name: 'Martha Caldwell',
+    role: 'Estate Archivist & Curator',
+    avatar: 'MC',
+    age: '54 Years',
+    domicile: 'East Wing Staff Annex',
+    financialStatus: 'Modest Income (£240/yr)',
+    bio: 'Has served as Blackwood Estate archivist for 18 years. Meticulous keeper of manuscripts, locks, and vitrine display inventories.',
+    alibi: 'Claims she was sorting 17th-century manuscripts in the east annex archive room from 21:00 to 22:00 continuously.',
+    alibiDiscrepancy: 'A torn Western Post telegram addressed to "M.C." was intercepted instructing a vitrine swap before midnight.',
+    statement: '“I was in the east annex sorting family manuscripts all evening. I checked Vitrine #04 at 21:00 sharp and verified the Chubb cylinder lock was fully engaged before returning to my desk.”',
+    statementTime: '23:15 GMT',
+    motive: 'Fears termination due to estate restructuring; possessed intimate knowledge of vitrine lock keyway profiles.',
     suspicionLevel: 'Medium',
+    behavioralCue: 'Hands tremble slightly when adjusting wire-rim spectacles; keeps polishing fountain pen nib with handkerchief.',
+    composureStatus: 'EVASIVE (CONTROLLED STOICISM)',
+    pulseBpm: 88,
+    tags: ['VAULT ACCESS', 'EVASIVE', 'ARCHIVIST'],
+    imagePath: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400',
     keyObservations: [
-      'Holds duplicate key ring for routine cleaning, but vitrine key #04 was locked in the main safe.',
-      'Hands were covered in polishing cream, leaving clear traces on pantry teaware.',
-      'Agitated by the disruption to her regimented household schedule.'
+      'Access to master lock key index in estate pantry safe.',
+      'Fountain pen ink on fingers matches Higgins #2 ink on telegram fragment.',
+      'Reported Vitrine #04 lock intact at 21:00 during routine inspection.'
     ],
+    linkedEvidenceIds: ['EVD-001', 'EVD-010', 'EVD-012'],
+    timelineEventIds: ['evt-2100', 'evt-2131'],
     interrogationTopics: [
       {
-        id: 'topic-keys',
-        title: 'Vitrine Key Security',
-        prompt: 'Who has access to the master key for West Vitrine #04?',
-        response: 'Only Lord Blackwood and myself. My key remains locked in the pantry safe at all times, except during Monday morning dusting.',
+        id: 'topic-keys-martha',
+        title: 'Vitrine Lock Inspection at 21:00',
+        prompt: 'You inspected Vitrine #04 at 21:00. Was there any sign of tampering prior to dinner?',
+        response: 'None whatsoever. The brass cylinder disengaged smoothly for my inventory check and I locked it securely before handing the key ring back.',
+        category: 'timeline',
         revealsTruth: true
       },
       {
-        id: 'topic-pantry',
-        title: 'Pantry Activity at 21:24',
-        prompt: 'Did anyone see you in the pantry when the outage occurred?',
-        response: 'Arthur Pendelton passed through the hall around 21:15 asking for tea, but when the power cut out, I was alone lighting emergency candles.',
-        revealsTruth: false
+        id: 'topic-telegram-martha',
+        title: 'Western Post Telegram Fragment',
+        prompt: 'We found a telegram snippet signed "M.C." referencing a vitrine replica exchange.',
+        response: 'I... I frequently correspond with museum appraisers regarding artifact loans! That telegram has been taken entirely out of context.',
+        category: 'evidence',
+        requiredEvidenceId: 'EVD-003',
+        revealsTruth: true,
+        contradictionDiscoveredId: 'con-4'
       }
     ]
   },
   {
-    id: 'arthur-pendelton',
-    name: 'Arthur Pendelton',
-    role: 'Family Attorney',
-    avatar: 'AP',
-    bio: '61 years old. Senior partner at Pendelton & Croft. Manages all Blackwood trust funds and legal filings.',
-    alibi: 'Claims he was in the study reviewing property deeds during the entire evening.',
-    motive: 'Aware of impending audit of trust accounts which might reveal administrative irregularities.',
+    id: 'daniel-sterling',
+    name: 'Daniel Sterling',
+    role: 'Weekend Guest & Financier',
+    avatar: 'DS',
+    age: '38 Years',
+    domicile: 'Mayfair, London',
+    financialStatus: 'Wealthy Private Investor',
+    bio: 'London financier and guest of Lord Blackwood for the weekend shooting party. Known collector of rare gemstone jewelry.',
+    alibi: 'Claims he was in the billiards room playing solitaire from 21:10 to 21:40.',
+    alibiDiscrepancy: 'Balcony balustrade ash tray contains Turkish tobacco matching his custom cigarette case.',
+    statement: '“I spent the outage in the billiards room. When the lights went out, I simply poured myself a brandy and waited for the staff to restore generator power.”',
+    statementTime: '23:55 GMT',
+    motive: 'Expressed private interest in acquiring the Star of Blackwood diamond for a Swiss syndicate.',
     suspicionLevel: 'Medium',
+    behavioralCue: 'Maintains aloof, amused composure; frequently checks gold pocket watch and twirls signet ring.',
+    composureStatus: 'COMPOSED (CALM RESTRAINT)',
+    pulseBpm: 72,
+    tags: ['OUTSIDER', 'COMPOSED', 'FINANCIER'],
+    imagePath: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400',
     keyObservations: [
-      'Carried a heavy leather briefcase that was locked throughout the investigation.',
-      'Calm and measured demeanor; answered all questions with precise legal phrasing.',
-      'Confirmed Lord Blackwood was considering amending his will.'
+      'Experienced gemstone buyer with international contacts.',
+      'Observed conversing privately with James Blackwood in the conservatory prior to dinner.',
+      'Carried a customized leather attache case locked in guest quarters.'
     ],
+    linkedEvidenceIds: ['EVD-008'],
+    timelineEventIds: ['evt-2115', 'evt-2147'],
     interrogationTopics: [
       {
-        id: 'topic-will',
-        title: 'Estate Will Revisions',
-        prompt: 'Was Lady Blackwood planning to alter the estate inheritance terms?',
-        response: 'As legal counsel, client confidentiality prevents disclosure. However, I can confirm draft papers were prepared earlier this week.',
-        revealsTruth: true
+        id: 'topic-billiards-daniel',
+        title: 'Billiards Room Solitaire Alibi',
+        prompt: 'Did anyone witness you in the billiards room between 21:10 and 21:40?',
+        response: 'The staff were occupied with dinner service. Solitaire is a solitary pastime, Inspector.',
+        category: 'alibi',
+        revealsTruth: false
       },
       {
-        id: 'topic-study',
-        title: 'Study Room Presence',
-        prompt: 'Did you leave the study at any point around 21:20?',
-        response: 'Only to request a cup of Earl Grey from Mrs. Vane. I returned to my desk immediately and remained there until the alarm sounded.',
-        revealsTruth: false
+        id: 'topic-cigar-daniel',
+        title: 'Terrace Balcony Cigarette Case',
+        prompt: 'We found a silver cigarette case on the terrace balcony containing Turkish tobacco.',
+        response: 'James and I stepped out briefly before dinner to smoke. It is hardly surprising to find tobacco ash on a terrace balustrade.',
+        category: 'evidence',
+        requiredEvidenceId: 'EVD-008',
+        revealsTruth: true
       }
     ]
   },
@@ -116,30 +172,85 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Lady Eleanor Blackwood',
     role: 'Estate Matriarch & Owner',
     avatar: 'EB',
-    bio: '68 years old. Owner of the Star of Blackwood Diamond. Philanthropist and patron of the London Arts Guild.',
-    alibi: 'Was receiving guests in the grand drawing room until the blackout occurred.',
-    motive: 'None evident; victim of the crime.',
+    age: '68 Years',
+    domicile: 'Blackwood Hall, Main Suite',
+    financialStatus: 'Sole Executor of Blackwood Estate',
+    bio: 'Matriarch of Blackwood Hall and custodian of the Star of Blackwood Diamond. Highly protective of family honor.',
+    alibi: 'Was receiving guests in the drawing room until the blackout occurred at 21:24.',
+    alibiDiscrepancy: 'Shattered crystal glass near hearth shows lip gloss residue matching her shade.',
+    statement: '“The diamond has been in our family for four generations. I was conversing with guests near the fireplace when the lights flickered off. The theft is an outrage against our house!”',
+    statementTime: '23:05 GMT',
+    motive: 'Victim of the theft; highly protective of estate reputation.',
     suspicionLevel: 'Low',
+    behavioralCue: 'Distraught and stern; demands swift resolution while protecting family name.',
+    composureStatus: 'DEFENSIVE (DISTRAUGHT MATRIARCH)',
+    pulseBpm: 96,
+    tags: ['ESTATE RESIDENT', 'DEFENSIVE', 'MATRIARCH'],
+    imagePath: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400',
     keyObservations: [
-      'Deeply distraught by the theft of her family heirloom.',
-      'Insisted the police conduct a thorough search without favor to family members.',
-      'Noticed James was absent from the drawing room right before the blackout.'
+      'Shattered Dom Pérignon flute near hearth dropped during blackout.',
+      'Recently requested legal draft from Attorney Pendelton regarding inheritance changes.',
+      'Confirmed James asked for a major financial advance last week.'
     ],
+    linkedEvidenceIds: ['EVD-002', 'EVD-011'],
+    timelineEventIds: ['evt-2000', 'evt-2124', 'evt-2147'],
     interrogationTopics: [
       {
-        id: 'topic-necklace',
-        title: 'Diamond History & Value',
-        prompt: 'Tell us about the significance of the Star of Blackwood.',
-        response: 'It has been in our family for four generations, valued at over £1.2M. It is irreplaceable, not just financially but historically.',
-        revealsTruth: false
+        id: 'topic-diamond-eleanor',
+        title: 'Star of Blackwood History',
+        prompt: 'Tell us about the history and security of the Star of Blackwood.',
+        response: 'It was purchased by my grandfather in 1884. The vitrine was specially fitted with Chubb locks. Only three keys exist.',
+        category: 'evidence',
+        revealsTruth: true
       },
       {
-        id: 'topic-family',
-        title: 'James\' Behavior Lately',
-        prompt: 'Have you noticed any strange behavior from your son James recently?',
-        response: 'James has been distant... anxious. He asked me for a large sum of money last week, but refused to explain why.',
-        revealsTruth: true
+        id: 'topic-james-eleanor',
+        title: 'James\' Recent Behavior',
+        prompt: 'Did James mention his financial difficulties to you before dinner?',
+        response: 'James asked for an advance on his inheritance last week. I refused. He was furious... but I never imagined he could be involved in this!',
+        category: 'motive',
+        revealsTruth: true,
+        unlocksEvidenceId: 'EVD-011'
       }
     ]
+  }
+];
+
+export const INITIAL_CONTRADICTIONS: StatementContradiction[] = [
+  {
+    id: 'con-1',
+    suspectId: 'james-blackwood',
+    title: 'STATEMENT vs BUTLER TESTIMONY',
+    statementSnippet: 'James claims he descended to the wine cellar at 21:20.',
+    contradictingEvidenceId: 'EVD-005',
+    explanation: 'Butler Hastings testifies wine cellar descent occurred at 21:38, leaving 18 minutes unaccounted during the 21:24 blackout.',
+    discovered: false
+  },
+  {
+    id: 'con-2',
+    suspectId: 'james-blackwood',
+    title: 'STATEMENT vs WAX IMPRESSION MOLD',
+    statementSnippet: 'James claims he never touched the vitrine lock mechanism.',
+    contradictingEvidenceId: 'EVD-004',
+    explanation: 'Pink paraffin wax alloy matching Lock #04 keyway residue was recovered directly from James\' coat pocket.',
+    discovered: false
+  },
+  {
+    id: 'con-3',
+    suspectId: 'james-blackwood',
+    title: 'STATEMENT vs CCTV TELEMETRY LOG',
+    statementSnippet: 'James claims he remained on the terrace balcony during the blackout.',
+    contradictingEvidenceId: 'EVD-009',
+    explanation: 'CCTV infrared camera feed recorded a silhouette matching James\' 6ft build moving to the basement breaker at 21:24:02.',
+    discovered: false
+  },
+  {
+    id: 'con-4',
+    suspectId: 'martha-caldwell',
+    title: 'STATEMENT vs TELEGRAM FRAGMENT',
+    statementSnippet: 'Martha claims she was sorting 17th-century manuscripts all evening.',
+    contradictingEvidenceId: 'EVD-003',
+    explanation: 'Western Post telegram addressed to "M.C." details instructions to swap Vitrine #04 before midnight.',
+    discovered: false
   }
 ];

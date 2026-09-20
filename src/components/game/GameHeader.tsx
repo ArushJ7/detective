@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { Eye, Shield, FileText, Lock, Users, Brain, MapPin, Sparkles, Target } from 'lucide-react';
+import { sfx } from '../../utils/audio';
+import { Eye, Shield, FileText, Lock, Users, MessageSquare, Clock, BookOpen, Compass, Brain, MapPin, Sparkles, Target, ShieldCheck } from 'lucide-react';
 import './GameHeader.css';
 
 export const GameHeader: React.FC = () => {
@@ -16,8 +17,18 @@ export const GameHeader: React.FC = () => {
     { path: '/inspection', label: 'INSPECTION', icon: Eye },
     { path: '/vault', label: 'EVIDENCE VAULT', icon: Lock, badge: state.unlockedVaultItemIds.length },
     { path: '/suspects', label: 'SUSPECT DOSSIERS', icon: Users },
-    { path: '/deduction', label: 'FINAL DEDUCTION', icon: Brain }
+    { path: '/interrogation', label: 'INTERROGATION', icon: MessageSquare },
+    { path: '/chronology', label: 'CHRONOLOGY', icon: Clock },
+    { path: '/notebook', label: 'NOTEBOOK', icon: BookOpen, badge: state.notes.length },
+    { path: '/map', label: 'ESTATE MAP', icon: Compass },
+    { path: '/deduction', label: 'FINAL DEDUCTION', icon: Brain },
+    ...(state.deductionSubmitted ? [{ path: '/resolution', label: 'RESOLUTION', icon: ShieldCheck }] : [])
   ];
+
+  const handleUVToggle = () => {
+    sfx.playTorchToggle();
+    dispatch({ type: 'TOGGLE_UV_MODE' });
+  };
 
   return (
     <header className={`game-header ${isUV ? 'uv-active-header' : ''}`}>
@@ -45,7 +56,7 @@ export const GameHeader: React.FC = () => {
           </div>
           <button
             className={`uv-toggle-btn ${isUV ? 'active' : ''}`}
-            onClick={() => dispatch({ type: 'TOGGLE_UV_MODE' })}
+            onClick={handleUVToggle}
             title="Toggle UV Forensic Torch (Reveals hidden fluorescent clues)"
           >
             <Sparkles size={16} />
@@ -64,6 +75,7 @@ export const GameHeader: React.FC = () => {
               key={item.path}
               to={item.path}
               className={`nav-tab ${isActive ? 'active' : ''}`}
+              onClick={() => sfx.playClick()}
             >
               <Icon size={16} />
               <span>{item.label}</span>

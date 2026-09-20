@@ -1,0 +1,323 @@
+/* Case Map Architectural Blueprint Page Styling — Digital Detective */
+
+.casemap-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  position: relative;
+}
+
+/* Header Bar */
+.casemap-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-subtle);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.casemap-sub-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.casemap-main-title {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--color-text-primary);
+}
+
+.casemap-subtitle {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.map-stats-badge {
+  font-size: 0.78rem;
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-primary);
+  padding: 6px 12px;
+  border: 1px solid var(--color-border-subtle);
+}
+
+.map-stats-badge strong {
+  color: var(--color-primary);
+}
+
+/* Workspace Layout */
+.casemap-workspace-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  width: 100%;
+}
+
+/* Left Canvas: Architectural Blueprint */
+.blueprint-canvas-box {
+  position: relative;
+  width: 100%;
+  height: 620px;
+  background-color: #0c1512;
+  border: 1px solid var(--color-border-medium);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+
+.blueprint-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(233, 193, 118, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(233, 193, 118, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.blueprint-compass-rose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  pointer-events: none;
+}
+
+.blueprint-title-stamp {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.62rem;
+  color: var(--color-primary);
+  background-color: rgba(11, 15, 12, 0.85);
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-subtle);
+  pointer-events: none;
+}
+
+/* Location Hotspot Pins */
+.location-hotspot-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hotspot-beacon-ring {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;
+  border: 1.5px solid var(--color-primary);
+  opacity: 0.6;
+}
+
+.hotspot-core-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50% !important;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  z-index: 2;
+}
+
+.location-hotspot-pin.selected .hotspot-core-dot {
+  background-color: var(--color-accent-red);
+  box-shadow: 0 0 14px var(--color-accent-red);
+}
+
+.location-hotspot-pin.selected .hotspot-beacon-ring {
+  border-color: var(--color-accent-red);
+}
+
+.hotspot-label-tag {
+  position: absolute;
+  top: 18px;
+  white-space: nowrap;
+  background-color: rgba(11, 15, 12, 0.9);
+  border: 1px solid var(--color-border-subtle);
+  padding: 3px 8px;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  transition: var(--transition-fast);
+}
+
+.location-hotspot-pin:hover .hotspot-label-tag {
+  border-color: var(--color-primary);
+  transform: translateY(2px);
+}
+
+.loc-name {
+  color: var(--color-text-primary);
+}
+
+.loc-badge {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.58rem;
+  background-color: rgba(233, 193, 118, 0.15);
+  padding: 1px 4px;
+}
+
+/* Right Column: Location Intelligence Dossier */
+.location-dossier-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dossier-header-card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dossier-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  margin-bottom: 4px;
+}
+
+.status-badge {
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  font-weight: 700;
+}
+
+.status-active-hotspot {
+  background-color: var(--color-accent-red-dim);
+  color: var(--color-accent-red);
+  border: 1px solid var(--color-border-red);
+}
+
+.status-searched {
+  background-color: rgba(233, 193, 118, 0.15);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.status-secured {
+  background-color: rgba(183, 204, 178, 0.15);
+  color: var(--color-tertiary);
+  border: 1px solid var(--color-tertiary);
+}
+
+.location-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+.location-subtitle {
+  font-size: 0.72rem;
+  color: var(--color-text-tertiary);
+}
+
+.location-desc {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* Location Section Boxes */
+.location-section-box {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 6px;
+}
+
+.empty-text {
+  font-size: 0.7rem;
+  margin: 0;
+}
+
+.dossier-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-subtle);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.location-item-row:hover {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-primary);
+}
+
+.item-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-code {
+  font-size: 0.75rem;
+}
+
+.item-title {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.item-sub {
+  font-size: 0.65rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .casemap-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blueprint-canvas-box {
+    height: 480px;
+  }
+}

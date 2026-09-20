@@ -11,6 +11,9 @@ import { EvidenceBoardPage } from './pages/EvidenceBoard/EvidenceBoardPage';
 import { EvidenceVaultPage } from './pages/EvidenceVault/EvidenceVaultPage';
 import { SuspectDossierPage } from './pages/SuspectDossier/SuspectDossierPage';
 import { SuspectInterrogationPage } from './pages/SuspectInterrogation/SuspectInterrogationPage';
+import { EventChronologyPage } from './pages/EventChronology/EventChronologyPage';
+import { DetectiveNotebookPage } from './pages/DetectiveNotebook/DetectiveNotebookPage';
+import { CaseMapPage } from './pages/CaseMap/CaseMapPage';
 import { FinalDeductionPage } from './pages/FinalDeduction/FinalDeductionPage';
 import { CaseResolutionPage } from './pages/CaseResolution/CaseResolutionPage';
 
@@ -36,6 +39,11 @@ export const App: React.FC = () => {
               <Route path="/vault" element={<EvidenceVaultPage />} />
               <Route path="/suspects" element={<SuspectDossierPage />} />
               <Route path="/interrogation" element={<SuspectInterrogationPage />} />
+              <Route path="/chronology" element={<EventChronologyPage />} />
+              <Route path="/timeline" element={<EventChronologyPage />} />
+              <Route path="/notebook" element={<DetectiveNotebookPage />} />
+              <Route path="/map" element={<CaseMapPage />} />
+              <Route path="/estate-map" element={<CaseMapPage />} />
               <Route path="/deduction" element={<FinalDeductionPage />} />
               <Route path="/resolution" element={<CaseResolutionPage />} />
               <Route path="*" element={<Navigate to="/intro" replace />} />

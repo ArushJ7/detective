@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
+import { sfx } from '../../utils/audio';
 import { Sparkles, Play, CheckCircle2, Eye, Pin, X, Search, Compass, AlertCircle } from 'lucide-react';
 import './InvestigationScenePage.css';
 
@@ -111,6 +112,7 @@ export const InvestigationScenePage: React.FC = () => {
   const [uvResidueActive, setUvResidueActive] = useState<boolean>(false);
 
   const handleSelectHotspot = (hotspot: SceneHotspotConfig) => {
+    sfx.playReticle();
     setInspectingHotspot(hotspot);
     setDrawerOpen(true);
 
@@ -126,6 +128,7 @@ export const InvestigationScenePage: React.FC = () => {
   };
 
   const handleExamineDetail = () => {
+    sfx.playClick();
     if (inspectingHotspot) {
       dispatch({ type: 'SELECT_EVIDENCE', payload: inspectingHotspot.id });
       navigate('/inspection');
@@ -133,6 +136,7 @@ export const InvestigationScenePage: React.FC = () => {
   };
 
   const handlePinToBoard = () => {
+    sfx.playPaper();
     if (inspectingHotspot) {
       dispatch({
         type: 'ADD_BOARD_CONNECTION',

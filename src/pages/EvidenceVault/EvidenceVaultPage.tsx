@@ -1,132 +1,208 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { Lock, Unlock, Key, ShieldCheck, AlertCircle } from 'lucide-react';
+import type { EvidenceItem } from '../../state/types';
+import { Folder, Camera, Box, FileText, Activity, Volume2, Lock, Eye, X, Sparkles } from 'lucide-react';
 import './EvidenceVaultPage.css';
 
 export const EvidenceVaultPage: React.FC = () => {
-  const { state, dispatch, vaultEvidence } = useInvestigation();
-  const [passcode, setPasscode] = useState<string>('');
-  const [errorMsg, setErrorMsg] = useState<string>('');
-  const [selectedVaultItem, setSelectedVaultItem] = useState<string>('EVD-011');
+  const { state, dispatch, evidenceList, discoveredEvidence } = useInvestigation();
+  const navigate = useNavigate();
 
-  const activeItem = vaultEvidence.find(e => e.id === selectedVaultItem) || vaultEvidence[0];
-  const isUnlocked = state.unlockedVaultItemIds.includes(activeItem.id);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [modalItem, setModalItem] = useState<EvidenceItem | null>(null);
 
-  const handleUnlockAttempt = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!activeItem.vaultCodeRequired) return;
+  const discoveredCount = discoveredEvidence.length;
+  const totalCount = evidenceList.length;
 
-    if (passcode.trim() === activeItem.vaultCodeRequired) {
-      dispatch({ type: 'UNLOCK_VAULT_ITEM', payload: activeItem.id });
-      setErrorMsg('');
-      setPasscode('');
-    } else {
-      setErrorMsg('ACCESS DENIED // INVALID ENCRYPTION PASSCODE');
+  const categoryTabs = [
+    { id: 'all', label: `ALL ARCHIVES (${totalCount})`, icon: Folder },
+    { id: 'photo', label: 'PHOTOGRAPHS', icon: Camera },
+    { id: 'object', label: 'SPECIMENS & OBJECTS', icon: Box },
+    { id: 'document', label: 'DOCUMENTS & TEXT', icon: FileText },
+    { id: 'digital', label: 'TELEMETRY & LOGS', icon: Activity },
+    { id: 'audio', label: 'AUDIO TRACKS', icon: Volume2 }
+  ];
+
+  const filteredItems = evidenceList.filter(item => {
+    if (activeCategory === 'all') return true;
+    return item.category === activeCategory;
+  });
+
+  const handleOpenInspect = (item: EvidenceItem) => {
+    if (state.discoveredEvidenceIds.includes(item.id)) {
+      setModalItem(item);
     }
   };
 
+  const handleNavigateToFullInspection = (item: EvidenceItem) => {
+    dispatch({ type: 'SELECT_EVIDENCE', payload: item.id });
+    navigate('/inspection');
+  };
+
   return (
-    <div className="vault-container animate-fade-in">
-      <div className="vault-header">
-        <div className="vault-title-group">
-          <h2 className="vault-title"><Lock size={20} /> HIGH-SECURITY EVIDENCE VAULT</h2>
-          <span className="vault-subtitle font-mono">FORENSIC SECURITY ARCHIVE — PASSCODE PROTECTION REQUIRED</span>
+    <div className="vault-page-container font-body">
+      {/* Archival Header Strip */}
+      <div className="vault-archive-header font-mono">
+        <div className="header-title-block">
+          <div className="docket-sub-line">
+            <span className="dot animate-pulse text-gold"></span>
+            <span>REGISTRY DIVISION // SECTION 04</span>
+            <span className="divider">/</span>
+            <span className="text-gold">STORAGE BAY: VAULT-B</span>
+          </div>
+          <h1 className="vault-main-title font-headline">
+            EVIDENCE VAULT <span className="vault-id font-mono">#EV-001-BLKW</span>
+          </h1>
         </div>
 
-        <div className="vault-status font-mono">
-          UNLOCKED ITEMS: <strong>{state.unlockedVaultItemIds.length} / {vaultEvidence.length}</strong>
+        <div className="vault-stats-badge font-mono">
+          <div className="stat-col">
+            <span className="lbl">SECURED RETRIEVAL</span>
+            <span className="val text-gold">{discoveredCount} <small>/ {totalCount} CATALOGED</small></span>
+          </div>
+          <span className="v-divider"></span>
+          <div className="stat-col">
+            <span className="lbl">UNRESOLVED LEADS</span>
+            <span className="val text-red">{totalCount - discoveredCount} <small>UNRECOVERED</small></span>
+          </div>
         </div>
       </div>
 
-      <div className="vault-layout">
-        {/* Vault Item Selection */}
-        <aside className="vault-roster">
-          <div className="roster-header font-mono">CLASSIFIED VAULT CONTAINERS</div>
-          <div className="roster-list">
-            {vaultEvidence.map(item => {
-              const unlocked = state.unlockedVaultItemIds.includes(item.id);
-              return (
-                <div
-                  key={item.id}
-                  className={`vault-roster-item ${activeItem.id === item.id ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedVaultItem(item.id);
-                    setErrorMsg('');
-                    setPasscode('');
-                  }}
-                >
-                  <div className="roster-item-icon">
-                    {unlocked ? <Unlock size={16} className="text-green" /> : <Lock size={16} className="text-red" />}
-                  </div>
-                  <div className="roster-item-info">
-                    <span className="font-mono item-id">{item.id}</span>
-                    <span className="item-name">{item.title}</span>
-                  </div>
-                  <span className={`status-badge font-mono ${unlocked ? 'unlocked' : 'locked'}`}>
-                    {unlocked ? 'UNLOCKED' : 'LOCKED'}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </aside>
+      {/* Category Folder Filter Tabs */}
+      <div className="vault-category-tabs font-mono">
+        {categoryTabs.map(tab => {
+          const Icon = tab.icon;
+          const isActive = activeCategory === tab.id;
+          return (
+            <button
+              key={tab.id}
+              className={`vault-tab ${isActive ? 'active' : ''}`}
+              onClick={() => setActiveCategory(tab.id)}
+            >
+              <Icon size={14} />
+              <span>{tab.label}</span>
+              {isActive && <div className="tab-active-indicator"></div>}
+            </button>
+          );
+        })}
+      </div>
 
-        {/* Vault Keypad & Inspection Area */}
-        <main className="vault-main-panel">
-          <div className="vault-card">
-            <div className="vault-card-header">
-              <span className="label-stamp label-stamp-red font-mono">CONFIDENTIAL // SECURITY LEVEL 4</span>
-              <h1 className="vault-item-title">{activeItem.title}</h1>
-              <span className="font-mono vault-item-sub">{activeItem.subtitle}</span>
+      {/* Vault Locker Mosaic Grid */}
+      <div className="vault-mosaic-grid">
+        {filteredItems.map(item => {
+          const isDiscovered = state.discoveredEvidenceIds.includes(item.id);
+
+          if (!isDiscovered) {
+            return (
+              <div key={item.id} className="vault-item-card locked-locker font-mono">
+                <div className="locker-icon-box">
+                  <Lock size={24} className="text-red" />
+                </div>
+                <span className="locked-tag">[SECURED EXHIBIT {item.id}]</span>
+                <span className="locked-type">{item.title}</span>
+
+                <div className="caution-tape-strip">
+                  <span>LOCKED // CLASSIFIED</span>
+                </div>
+
+                <div className="locker-hint-box">
+                  <Sparkles size={12} className="text-gold" />
+                  <span>RECOVERY HINT: Search Drawing Room hotspots or question suspects to discover.</span>
+                </div>
+
+                <div className="locker-footer">
+                  <span>[UNDISCOVERED CLUE]</span>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={item.id}
+              className="vault-item-card discovered-card"
+              onClick={() => handleOpenInspect(item)}
+            >
+              {/* Simulated Brass Specimen Clip */}
+              <div className="brass-clip">
+                <div className="clip-inner"></div>
+              </div>
+
+              {/* Photo / Mount Plate */}
+              <div className="card-mount-frame">
+                <div className="mount-image-box">
+                  <div className="mount-backdrop">
+                    <span className="tag-number font-mono">EXHIBIT #{item.id.replace('EVD-', '')}</span>
+                    <span className="tag-status font-mono">DISCOVERED</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Metadata Details */}
+              <div className="card-details-block font-mono">
+                <div className="card-meta-row">
+                  <span className="ev-code">{item.id} // {item.category.toUpperCase()}</span>
+                  <span className="ev-time">{item.timeDiscovered}</span>
+                </div>
+                <h3 className="card-title-text font-headline">{item.title}</h3>
+                <p className="card-desc-text font-mono">{item.description}</p>
+
+                <div className="card-click-trigger font-mono">
+                  <span>[CLICK TO EXAMINE]</span>
+                  <Eye size={14} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Click-to-Inspect Modal Overlay */}
+      {modalItem && (
+        <div className="vault-modal-backdrop animate-fade-in font-mono">
+          <div className="vault-modal-card">
+            <div className="modal-top">
+              <div className="modal-title-group">
+                <span className="modal-stamp">MAGNIFICATION LOUPE</span>
+                <span className="modal-id">{modalItem.id}</span>
+              </div>
+              <button className="btn-modal-close" onClick={() => setModalItem(null)}>
+                <X size={18} />
+              </button>
             </div>
 
-            {isUnlocked ? (
-              <div className="unlocked-view animate-fade-in">
-                <div className="unlocked-banner">
-                  <ShieldCheck size={24} />
-                  <span className="font-mono">ENCRYPTION BYPASSED — EVIDENCE DECRYPTED & DISCOVERED</span>
-                </div>
-
-                <div className="unlocked-details">
-                  <h3 className="font-headline">EVIDENCE BREAKDOWN</h3>
-                  <p>{activeItem.description}</p>
-                  <p className="font-mono detail-notes">{activeItem.detailedNotes}</p>
+            <div className="modal-viewport">
+              <div className="modal-viewport-art">
+                <div className="modal-grid-overlay"></div>
+                <div className="modal-scale font-mono">
+                  <span>+ 0.00 mm</span>
+                  <span>+ 45.00 mm</span>
+                  <span>+ 90.00 mm</span>
                 </div>
               </div>
-            ) : (
-              <div className="keypad-lock-view">
-                <div className="keypad-header">
-                  <Lock size={32} className="lock-icon" />
-                  <h3 className="font-headline">SECURITY LOCK MECHANISM</h3>
-                  <p className="font-mono lock-hint">HINT: Case clues reveal vault passcode numbers.</p>
-                </div>
+            </div>
 
-                <form className="keypad-form" onSubmit={handleUnlockAttempt}>
-                  <div className="passcode-input-wrapper">
-                    <input
-                      type="password"
-                      maxLength={6}
-                      placeholder="ENTER PASSCODE"
-                      value={passcode}
-                      onChange={e => setPasscode(e.target.value)}
-                      className="font-mono passcode-input"
-                    />
-                    <button type="submit" className="btn-unlock font-mono">
-                      <Key size={16} /> UNLOCK
-                    </button>
-                  </div>
+            <div className="modal-notes-box">
+              <span className="lbl text-gold">INSPECTOR FIELD NOTATION:</span>
+              <p className="txt font-mono">{modalItem.detailedNotes}</p>
+            </div>
 
-                  {errorMsg && (
-                    <div className="error-banner font-mono animate-flicker">
-                      <AlertCircle size={14} /> {errorMsg}
-                    </div>
-                  )}
-                </form>
-              </div>
-            )}
+            <div className="modal-actions font-mono">
+              <button
+                className="btn-modal-primary font-headline"
+                onClick={() => handleNavigateToFullInspection(modalItem)}
+              >
+                <Eye size={16} />
+                <span>EXAMINE IN FULL LAB BENCH</span>
+              </button>
+              <button className="btn-modal-sec" onClick={() => setModalItem(null)}>
+                <span>RETURN TO VAULT</span>
+              </button>
+            </div>
           </div>
-        </main>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

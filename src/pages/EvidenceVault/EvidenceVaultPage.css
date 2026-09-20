@@ -1,248 +1,483 @@
-.vault-container {
-  padding: 24px;
+.vault-page-container {
+  position: relative;
+  min-height: calc(100vh - 6rem);
+  background: var(--color-bg-lowest);
+  color: var(--color-text-primary);
+  padding: 32px 48px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  user-select: none;
 }
 
-.vault-header {
+/* Archival Header Strip */
+.vault-archive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 16px;
+}
+
+.header-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.docket-sub-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.12em;
+}
+
+.docket-sub-line .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50% !important;
+}
+
+.docket-sub-line .divider {
+  color: rgba(154, 143, 128, 0.3);
+}
+
+.vault-main-title {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.vault-id {
+  font-size: 0.9rem;
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+.vault-stats-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--color-bg-low);
+  border: 1px solid var(--color-border-subtle);
+  padding: 10px 18px;
+}
+
+.stat-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-col .lbl {
+  font-size: 0.6rem;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.1em;
+}
+
+.stat-col .val {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.stat-col .val small {
+  font-size: 0.7rem;
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+.v-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--color-border-subtle);
+}
+
+/* Folder Filter Tabs */
+.vault-category-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  overflow-x: auto;
+}
+
+.vault-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-bottom: none;
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.vault-tab:hover {
+  background: var(--color-bg-high);
+  color: var(--color-text-primary);
+}
+
+.vault-tab.active {
+  background: var(--color-bg-high);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.tab-active-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+}
+
+/* Mosaic Grid */
+.vault-mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Discovered Cards */
+.vault-item-card {
+  position: relative;
+  background: var(--color-bg-low);
+  border: 1px solid var(--color-border-subtle);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.discovered-card {
+  cursor: pointer;
+}
+
+.discovered-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+}
+
+/* Simulated Brass Specimen Clip */
+.brass-clip {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 18px;
+  background: var(--color-bg-highest);
+  border: 1px solid var(--color-border-medium);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clip-inner {
+  width: 16px;
+  height: 4px;
+  background: var(--color-bg-lowest);
+}
+
+/* Mount Plate */
+.card-mount-frame {
+  background: var(--color-bg-highest);
+  padding: 8px;
+  border: 1px solid rgba(154, 143, 128, 0.15);
+}
+
+.mount-image-box {
+  height: 140px;
+  background: var(--color-bg-lowest);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mount-backdrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag-number {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.tag-status {
+  font-size: 0.65rem;
+  color: var(--color-tertiary);
+  background: var(--color-accent-green-dim);
+  border: 1px solid var(--color-accent-green);
+  padding: 2px 6px;
+}
+
+/* Card Details */
+.card-details-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+}
+
+.ev-code {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.ev-time {
+  color: var(--color-text-tertiary);
+}
+
+.card-title-text {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.card-desc-text {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.card-click-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-secondary);
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  color: var(--color-primary);
+  margin-top: 6px;
+}
+
+/* Locked Locker */
+.locked-locker {
+  background: var(--color-bg-lowest);
+  opacity: 0.85;
+  border-color: rgba(200, 75, 49, 0.3);
+}
+
+.locker-icon-box {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 4px 0;
+}
+
+.locked-tag {
+  font-size: 0.7rem;
+  color: var(--color-secondary);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.locked-type {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.caution-tape-strip {
+  background: rgba(131, 41, 51, 0.5);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-secondary);
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 4px;
+  transform: rotate(-2deg);
+  margin: 6px 0;
+}
+
+.locker-hint-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  background: var(--color-bg-low);
+  padding: 8px;
+  font-size: 0.65rem;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+}
+
+.locker-footer {
+  text-align: center;
+  font-size: 0.65rem;
+  color: var(--color-text-tertiary);
+  margin-top: auto;
+}
+
+/* Inspect Modal */
+.vault-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 12, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.vault-modal-card {
+  background: var(--color-bg-low);
+  border: 1px solid var(--color-border-medium);
+  max-width: 620px;
+  width: 100%;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--color-border-subtle);
-  padding-bottom: 14px;
+  padding-bottom: 12px;
 }
 
-.vault-title {
+.modal-title-group {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0;
-  color: var(--color-primary);
 }
 
-.vault-subtitle {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-.vault-status {
-  font-size: 0.8rem;
-  color: var(--color-text-secondary);
-}
-
-.vault-status strong {
-  color: var(--color-primary);
-}
-
-.vault-layout {
-  display: flex;
-  gap: 24px;
-  min-height: 480px;
-}
-
-.vault-roster {
-  width: 320px;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-subtle);
-  display: flex;
-  flex-direction: column;
-}
-
-.roster-header {
-  padding: 14px 16px;
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  border-bottom: 1px solid var(--color-border-subtle);
-}
-
-.roster-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.vault-roster-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.vault-roster-item:hover {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.vault-roster-item.active {
-  background: var(--color-primary-dim);
-  border-left: 3px solid var(--color-primary);
-}
-
-.roster-item-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.item-id {
+.modal-stamp {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   font-size: 0.65rem;
-  color: var(--color-primary);
-}
-
-.item-name {
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-.status-badge {
-  font-size: 0.65rem;
+  font-weight: 700;
   padding: 2px 6px;
 }
 
-.status-badge.unlocked {
-  color: var(--color-accent-green);
-  border: 1px solid var(--color-accent-green);
-}
-
-.status-badge.locked {
-  color: var(--color-accent-red);
-  border: 1px solid var(--color-accent-red);
-}
-
-.vault-main-panel {
-  flex: 1;
-}
-
-.vault-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-medium);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  height: 100%;
-}
-
-.vault-card-header {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.vault-item-title {
-  margin: 0;
-  font-size: 1.75rem;
-}
-
-.vault-item-sub {
-  color: var(--color-text-secondary);
+.modal-id {
   font-size: 0.85rem;
-}
-
-.unlocked-view {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.unlocked-banner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--color-accent-green-dim);
-  border: 1px solid var(--color-accent-green);
-  color: var(--color-accent-green);
-  padding: 12px 18px;
-  font-size: 0.85rem;
+  color: var(--color-primary);
   font-weight: 700;
 }
 
-.unlocked-details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.detail-notes {
-  background: var(--color-bg-secondary);
-  border-left: 3px solid var(--color-accent-green);
-  padding: 14px;
-  color: var(--color-text-secondary);
-  font-size: 0.85rem;
-}
-
-.keypad-lock-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  padding: 40px 20px;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-subtle);
-}
-
-.keypad-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-}
-
-.lock-icon {
-  color: var(--color-accent-red);
-}
-
-.lock-hint {
-  font-size: 0.75rem;
+.btn-modal-close {
   color: var(--color-text-tertiary);
 }
 
-.keypad-form {
+.btn-modal-close:hover {
+  color: var(--color-primary);
+}
+
+.modal-viewport {
+  height: 220px;
+  background: var(--color-bg-lowest);
+  border: 1px solid var(--color-border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-viewport-art {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at center, rgba(233, 193, 118, 0.15) 0%, rgba(11, 15, 12, 0.95) 100%),
+    url('/assets/drawing_room.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.modal-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, rgba(233, 193, 118, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.modal-scale {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6rem;
+  color: var(--color-primary);
+}
+
+.modal-notes-box {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  max-width: 360px;
+  gap: 4px;
 }
 
-.passcode-input-wrapper {
-  display: flex;
-  width: 100%;
-  gap: 8px;
-}
-
-.passcode-input {
-  flex: 1;
-  padding: 12px;
-  font-size: 1.1rem;
-  letter-spacing: 0.2em;
-  text-align: center;
-}
-
-.btn-unlock {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--color-primary);
-  color: var(--color-bg-primary);
+.modal-notes-box .lbl {
+  font-size: 0.65rem;
   font-weight: 700;
-  padding: 0 18px;
+}
+
+.modal-notes-box .txt {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-modal-primary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px;
   transition: var(--transition-fast);
 }
 
-.btn-unlock:hover {
+.btn-modal-primary:hover {
   background: var(--color-primary-hover);
 }
 
-.error-banner {
+.btn-modal-sec {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--color-accent-red);
+  justify-content: center;
+  background: var(--color-bg-high);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-primary);
   font-size: 0.75rem;
+  padding: 10px 18px;
 }

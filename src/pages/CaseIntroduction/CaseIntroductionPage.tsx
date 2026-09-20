@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DoorOpen, FileText, Lock, Users, Fingerprint, X, Volume2 } from 'lucide-react';
+import { sfx } from '../../utils/audio';
+import { TypewriterText } from '../../components/ui/TypewriterText';
 import './CaseIntroductionPage.css';
 
 export const CaseIntroductionPage: React.FC = () => {
@@ -9,10 +11,16 @@ export const CaseIntroductionPage: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
   const handleEnterEstate = () => {
+    sfx.playPaper();
     setIsTransitioning(true);
     setTimeout(() => {
       navigate('/scene');
     }, 450);
+  };
+
+  const handleOpenBrief = () => {
+    sfx.playClick();
+    setShowBriefModal(true);
   };
 
   return (
@@ -61,7 +69,7 @@ export const CaseIntroductionPage: React.FC = () => {
           <div className="card-top-tab"></div>
 
           <p className="ledger-quote font-headline">
-            “A priceless Queen of Solms diamond necklace has vanished from a double-locked vitrine during the annual winter solstice banquet.”
+            “<TypewriterText text="A priceless Queen of Solms diamond necklace has vanished from a double-locked vitrine during the annual winter solstice banquet." speed={20} />”
           </p>
 
           <p className="ledger-body font-mono">
@@ -95,7 +103,7 @@ export const CaseIntroductionPage: React.FC = () => {
             <span>[ ENTER THE ESTATE ]</span>
           </button>
 
-          <button className="btn-read-brief" onClick={() => setShowBriefModal(true)}>
+          <button className="btn-read-brief" onClick={handleOpenBrief}>
             <FileText size={16} />
             <span>[ READ CASE BRIEF ]</span>
           </button>
