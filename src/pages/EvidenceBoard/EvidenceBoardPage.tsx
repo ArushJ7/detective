@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { INITIAL_EVIDENCE } from '../../data/evidence';
 import {
   Link as LinkIcon,
   Trash2,
@@ -24,7 +23,7 @@ interface DragState {
 }
 
 export const EvidenceBoardPage: React.FC = () => {
-  const { state, dispatch, discoveredEvidence } = useInvestigation();
+  const { state, dispatch, discoveredEvidence, evidenceList } = useInvestigation();
   const canvasRef = useRef<HTMLDivElement>(null);
 
   // Form state for creating yarn string connection
@@ -185,7 +184,7 @@ export const EvidenceBoardPage: React.FC = () => {
     dispatch({ type: 'SET_WORKING_HYPOTHESIS', payload: val });
   };
 
-  const selectedInspectingItem = INITIAL_EVIDENCE.find(e => e.id === inspectingCardId);
+  const selectedInspectingItem = evidenceList.find(e => e.id === inspectingCardId);
 
   return (
     <div className="board-page-container animate-fade-in">
@@ -228,7 +227,7 @@ export const EvidenceBoardPage: React.FC = () => {
 
         <div className="board-header-right font-mono">
           <div className="stats-box">
-            <span>PINNED: <strong>{discoveredEvidence.length} / {INITIAL_EVIDENCE.length}</strong></span>
+            <span>PINNED: <strong>{discoveredEvidence.length} / {evidenceList.length}</strong></span>
             <span className="divider">|</span>
             <span>STRINGS: <strong>{state.boardConnections.length}</strong></span>
           </div>

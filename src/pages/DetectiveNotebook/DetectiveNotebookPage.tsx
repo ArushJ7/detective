@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { INITIAL_EVIDENCE } from '../../data/evidence';
 import type { NotebookNote } from '../../state/types';
 import { sfx } from '../../utils/audio';
 import {
@@ -16,7 +15,7 @@ import {
 import './DetectiveNotebookPage.css';
 
 export const DetectiveNotebookPage: React.FC = () => {
-  const { state, dispatch, suspectsList } = useInvestigation();
+  const { state, dispatch, suspectsList, evidenceList } = useInvestigation();
   const navigate = useNavigate();
 
   const [activeFilter, setActiveFilter] = useState<'all' | 'evidence' | 'suspect' | 'timeline' | 'theory'>('all');
@@ -313,7 +312,7 @@ export const DetectiveNotebookPage: React.FC = () => {
                   <label>LINK EVIDENCE CLUE (OPTIONAL):</label>
                   <select value={formEvidenceId} onChange={e => setFormEvidenceId(e.target.value)}>
                     <option value="">None / General</option>
-                    {INITIAL_EVIDENCE.map(item => (
+                    {evidenceList.map(item => (
                       <option key={item.id} value={item.id}>
                         {item.id} — {item.title}
                       </option>

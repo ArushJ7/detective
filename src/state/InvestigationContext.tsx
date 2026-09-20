@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import type { ReactNode } from 'react';
-import type { InvestigationState, InvestigationAction, EvidenceItem, Suspect, TimelineEvent, EstateLocation } from './types';
+import type { InvestigationState, InvestigationAction, EvidenceItem, Suspect, TimelineEvent, EstateLocation, StatementContradiction } from './types';
 import type { CaseDefinition, CaseMetadata } from '../engine';
 import { initialInvestigationState, investigationReducer } from './investigationReducer';
 import { CaseManager } from '../engine';
@@ -14,6 +14,7 @@ interface InvestigationContextType {
   suspectsList: Suspect[];
   timelineEvents: TimelineEvent[];
   locationsList: EstateLocation[];
+  contradictionsList: StatementContradiction[];
   discoveredEvidence: EvidenceItem[];
   vaultEvidence: EvidenceItem[];
   selectedEvidence: EvidenceItem | null;
@@ -31,6 +32,7 @@ export const InvestigationProvider: React.FC<{ children: ReactNode }> = ({ child
   const suspectsList = activeCase.suspects;
   const timelineEvents = activeCase.timeline;
   const locationsList = activeCase.locations;
+  const contradictionsList = activeCase.contradictions;
 
   const discoveredEvidence = evidenceList.filter(e =>
     state.discoveredEvidenceIds.includes(e.id)
@@ -52,6 +54,7 @@ export const InvestigationProvider: React.FC<{ children: ReactNode }> = ({ child
         suspectsList,
         timelineEvents,
         locationsList,
+        contradictionsList,
         discoveredEvidence,
         vaultEvidence,
         selectedEvidence,

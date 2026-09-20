@@ -76,7 +76,8 @@ export const initialInvestigationState: InvestigationState = {
   },
   deductionSubmitted: false,
   deductionResult: null,
-  caseSolved: null
+  caseSolved: null,
+  completedCaseIds: []
 };
 
 export function investigationReducer(
@@ -89,15 +90,98 @@ export function investigationReducer(
       if (!targetCase) return state;
 
       CaseManager.setActiveCase(action.payload);
+
+      const isCase2 = targetCase.metadata.id === 'case-002';
+      const initialDiscovered = isCase2
+        ? ['EVD-201', 'EVD-202', 'EVD-203', 'EVD-205', 'EVD-206']
+        : targetCase.evidence.slice(0, 5).map(e => e.id);
+
+      const initialInspected = isCase2
+        ? ['EVD-201', 'EVD-202']
+        : targetCase.evidence.slice(0, 2).map(e => e.id);
+
+      const initialCardPositions: Record<string, { x: number; y: number }> = isCase2
+        ? {
+            'EVD-201': { x: 60, y: 60 },
+            'EVD-202': { x: 420, y: 60 },
+            'EVD-204': { x: 780, y: 70 },
+            'EVD-207': { x: 80, y: 380 },
+            'EVD-208': { x: 440, y: 390 },
+            'EVD-209': { x: 800, y: 400 }
+          }
+        : {
+            'EVD-001': { x: 60, y: 60 },
+            'EVD-007': { x: 420, y: 70 },
+            'EVD-006': { x: 780, y: 80 },
+            'EVD-005': { x: 80, y: 380 },
+            'EVD-002': { x: 440, y: 390 },
+            'EVD-004': { x: 800, y: 400 }
+          };
+
+      const initialConnections = isCase2
+        ? [
+            { id: 'conn-201', sourceId: 'EVD-201', targetId: 'EVD-202', label: 'Door Lock Assembly' },
+            { id: 'conn-204', sourceId: 'EVD-204', targetId: 'EVD-207', label: 'Transdermal Contact' }
+          ]
+        : [
+            { id: 'conn-1', sourceId: 'EVD-001', targetId: 'EVD-004', label: 'Wax Residue Match' },
+            { id: 'conn-2', sourceId: 'EVD-005', targetId: 'EVD-009', label: '21:24 Telemetry Match' }
+          ];
+
+      const initialNotes = isCase2
+        ? [
+            {
+              id: 'note-201',
+              type: 'theory' as const,
+              title: 'Locked Room Mechanism Paradox',
+              content: 'The mortise deadbolt was fully thrown from inside (EVD-201) and key remained in lock (EVD-202). Egress without locking from inside was impossible.',
+              annotation: 'IMPORTANT' as const,
+              createdAt: '22:15 GMT',
+              relatedEvidenceId: 'EVD-201',
+              relatedSuspectId: 'arthur-vance',
+              relatedTimelineEventId: 'evt-2103'
+            }
+          ]
+        : initialInvestigationState.notes;
+
       return {
         ...initialInvestigationState,
+        completedCaseIds: state.completedCaseIds,
         activeCaseId: action.payload,
         caseId: targetCase.metadata.id,
         caseTitle: targetCase.metadata.title,
-        discoveredEvidenceIds: targetCase.evidence.slice(0, 5).map(e => e.id),
-        inspectedEvidenceIds: targetCase.evidence.slice(0, 2).map(e => e.id),
+        currentObjective: targetCase.initialObjectives[0] || initialInvestigationState.currentObjective,
+        discoveredEvidenceIds: initialDiscovered,
+        inspectedEvidenceIds: initialInspected,
+        unlockedVaultItemIds: [],
+        boardConnections: initialConnections,
+        cardPositions: initialCardPositions,
+        workingHypothesis: isCase2
+          ? 'Professor Cole was found unconscious inside a study deadbolted from the inside. Determine how the poisoning occurred and why the 21:42 thud occurred.'
+          : initialInvestigationState.workingHypothesis,
+        questionedSuspectIds: isCase2 ? ['dr-evelyn-reed', 'arthur-vance'] : ['james-blackwood', 'martha-caldwell'],
+        unlockedTopicIds: isCase2
+          ? {
+              'dr-evelyn-reed': ['topic-reed-2030'],
+              'arthur-vance': ['topic-vance-door']
+            }
+          : initialInvestigationState.unlockedTopicIds,
+        discoveredContradictionIds: [],
+        notes: initialNotes,
+        selectedLocationId: isCase2 ? 'cole-study' : 'drawing-room',
         selectedEvidenceId: targetCase.evidence[0]?.id || null,
-        selectedSuspectId: targetCase.suspects[0]?.id || null
+        selectedSuspectId: targetCase.suspects[0]?.id || null,
+        deductionDraft: {
+          culpritId: null,
+          methodId: null,
+          motiveId: null,
+          selectedEvidenceIds: isCase2 ? ['EVD-201', 'EVD-204'] : ['EVD-001', 'EVD-004'],
+          selectedTimelineEventIds: isCase2 ? ['evt-2103'] : ['evt-2124'],
+          theoryText: ''
+        },
+        deductionSubmitted: false,
+        deductionResult: null,
+        caseSolved: null
       };
     }
 
@@ -320,11 +404,17 @@ export function investigationReducer(
 
     case 'SUBMIT_DEDUCTION': {
       const result = CaseManager.validateCaseDeduction(state.activeCaseId, state.deductionDraft);
+      const isSolved = result.resolutionState === 'SOLVED';
+      const updatedCompleted = isSolved && !state.completedCaseIds.includes(state.activeCaseId)
+        ? [...state.completedCaseIds, state.activeCaseId]
+        : state.completedCaseIds;
+
       return {
         ...state,
         deductionSubmitted: true,
         deductionResult: result,
-        caseSolved: result.resolutionState === 'SOLVED'
+        caseSolved: isSolved,
+        completedCaseIds: updatedCompleted
       };
     }
 
@@ -337,7 +427,10 @@ export function investigationReducer(
       };
 
     case 'RESET_CASE':
-      return initialInvestigationState;
+      return {
+        ...initialInvestigationState,
+        completedCaseIds: state.completedCaseIds
+      };
 
     default:
       return state;

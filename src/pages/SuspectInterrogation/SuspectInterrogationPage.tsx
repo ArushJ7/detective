@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { INITIAL_CONTRADICTIONS } from '../../data/suspects';
 import type { Suspect, InterrogationTopic } from '../../state/types';
 import { sfx } from '../../utils/audio';
 import { TypewriterText } from '../../components/ui/TypewriterText';
@@ -18,19 +17,19 @@ import {
 import './SuspectInterrogationPage.css';
 
 export const SuspectInterrogationPage: React.FC = () => {
-  const { state, dispatch, suspectsList, discoveredEvidence } = useInvestigation();
+  const { state, dispatch, suspectsList, discoveredEvidence, contradictionsList } = useInvestigation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const urlSuspectId = searchParams.get('suspect');
-  const selectedSuspectId = urlSuspectId || state.selectedSuspectId || 'james-blackwood';
+  const selectedSuspectId = urlSuspectId || state.selectedSuspectId || suspectsList[0]?.id || 'dr-evelyn-reed';
 
   const suspect: Suspect =
     suspectsList.find(s => s.id === selectedSuspectId) || suspectsList[0];
 
-  const unlockedTopics = state.unlockedTopicIds[suspect.id] || ['topic-alibi'];
+  const unlockedTopics = state.unlockedTopicIds[suspect.id] || [suspect.interrogationTopics[0]?.id || 'topic-alibi'];
   const [activeTopicId, setActiveTopicId] = useState<string>(
-    unlockedTopics[0] || 'topic-alibi'
+    unlockedTopics[0] || suspect.interrogationTopics[0]?.id || 'topic-alibi'
   );
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -60,7 +59,7 @@ export const SuspectInterrogationPage: React.FC = () => {
 
     if (topic.contradictionDiscoveredId) {
       dispatch({ type: 'DISCOVER_CONTRADICTION', payload: topic.contradictionDiscoveredId });
-      const contradiction = INITIAL_CONTRADICTIONS.find(c => c.id === topic.contradictionDiscoveredId);
+      const contradiction = contradictionsList.find(c => c.id === topic.contradictionDiscoveredId);
       if (contradiction) {
         showToast(`STATEMENT INCONSISTENCY DETECTED: ${contradiction.title}`);
       }
@@ -69,7 +68,7 @@ export const SuspectInterrogationPage: React.FC = () => {
 
   // Handle confronting suspect with evidence from fast dock
   const handleConfrontWithEvidence = (evidenceId: string) => {
-    const matchingContradiction = INITIAL_CONTRADICTIONS.find(
+    const matchingContradiction = contradictionsList.find(
       c => c.suspectId === suspect.id && c.contradictingEvidenceId === evidenceId
     );
 

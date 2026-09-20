@@ -121,25 +121,44 @@ export const CaseIntroductionPage: React.FC = () => {
       <div className="intro-bottom-banner font-mono">
         <div className="banner-left">
           <span className="label-title">DIFFICULTY:</span>
-          <span className="label-val">FORENSIC DEDUCTION (UNGUIDED)</span>
+          <span className="label-val">{caseMetadata.difficulty}</span>
           <span className="divider">|</span>
           <span className="label-title">ESTIMATED RECONSTRUCTION:</span>
-          <span className="label-val">45 MINUTES</span>
+          <span className="label-val">{caseMetadata.estimatedDuration}</span>
         </div>
 
         <div className="banner-right">
-          <div className="marker-item">
-            <span className="dot dot-green"></span>
-            <span>VITRINE SECURED: 21:00</span>
-          </div>
-          <div className="marker-item">
-            <span className="dot dot-red"></span>
-            <span>POWER FAULT: 22:30</span>
-          </div>
-          <div className="marker-item">
-            <span className="dot dot-gold animate-pulse"></span>
-            <span>THEFT DISCOVERED: 22:47</span>
-          </div>
+          {caseMetadata.id === 'case-002' ? (
+            <>
+              <div className="marker-item">
+                <span className="dot dot-green"></span>
+                <span>DINNER ENDS: 20:15</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-red"></span>
+                <span>DOOR LOCKED: 21:03</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-gold animate-pulse"></span>
+                <span>AUDIBLE THUD: 21:42</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="marker-item">
+                <span className="dot dot-green"></span>
+                <span>VITRINE SECURED: 21:00</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-red"></span>
+                <span>POWER FAULT: 22:30</span>
+              </div>
+              <div className="marker-item">
+                <span className="dot dot-gold animate-pulse"></span>
+                <span>THEFT DISCOVERED: 22:47</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -158,15 +177,31 @@ export const CaseIntroductionPage: React.FC = () => {
             </div>
 
             <div className="modal-body font-mono">
-              <p>
-                On the evening of 14 October, Lord Archibald Blackwood hosted an intimate gathering for four esteemed associates to present the 120-carat Queen of Solms necklace. The gem was contained in an armored glass vitrine with two keyed locks: Key A held by Lord Blackwood, Key B by his housekeeper, Victoria Vane.
-              </p>
-              <p>
-                At 22:30, lightning grounded the generator transformer. The entire manor was plunged into darkness for seventeen minutes. When power was restored at 22:47, the cabinet was unlocked, unmarred, and empty.
-              </p>
-              <p className="modal-highlight font-headline">
-                “No glass was shattered. No lock pins were forced with picks. The culprit possessed access to a key or crafted a duplicate.”
-              </p>
+              {caseMetadata.id === 'case-002' ? (
+                <>
+                  <p>
+                    On the evening of 12 November 1895, Professor Adrian Cole was discovered unconscious inside his private study at Highland Estate during a heavy rainstorm. The solid Scottish oak door was bolted from the inside with a mortise deadbolt; the key remained turned in the interior keyway.
+                  </p>
+                  <p>
+                    All double-hung sash windows were latched from within. At 21:42 GMT, a loud metallic thud was heard across the courtyard, prompting Butler Arthur Vance to break the door down with a crowbar at 21:50 GMT.
+                  </p>
+                  <p className="modal-highlight font-headline">
+                    “The room was locked from within. How did the poisoning occur when entry appeared impossible, and why did the crime appear to occur at 21:42 when the culprit had an alibi?”
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    On the evening of 14 October, Lord Archibald Blackwood hosted an intimate gathering for four esteemed associates to present the 120-carat Queen of Solms necklace. The gem was contained in an armored glass vitrine with two keyed locks: Key A held by Lord Blackwood, Key B by his housekeeper, Victoria Vane.
+                  </p>
+                  <p>
+                    At 22:30, lightning grounded the generator transformer. The entire manor was plunged into darkness for seventeen minutes. When power was restored at 22:47, the cabinet was unlocked, unmarred, and empty.
+                  </p>
+                  <p className="modal-highlight font-headline">
+                    “No glass was shattered. No lock pins were forced with picks. The culprit possessed access to a key or crafted a duplicate.”
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>

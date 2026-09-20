@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { CANONICAL_TIMELINE } from '../../data/timeline';
-import { INITIAL_CONTRADICTIONS } from '../../data/suspects';
 import type { TimelineEvent, StatementContradiction } from '../../state/types';
 import {
   AlertTriangle,
@@ -13,7 +11,7 @@ import {
 import './EventChronologyPage.css';
 
 export const EventChronologyPage: React.FC = () => {
-  const { dispatch } = useInvestigation();
+  const { dispatch, activeCase, timelineEvents, contradictionsList, suspectsList } = useInvestigation();
   const navigate = useNavigate();
 
   const [filterSuspect, setFilterSuspect] = useState<string>('ALL');
@@ -25,13 +23,13 @@ export const EventChronologyPage: React.FC = () => {
     setTimeout(() => setToastMessage(null), 3200);
   };
 
-  const filteredTimeline = CANONICAL_TIMELINE.filter(evt => {
+  const filteredTimeline = timelineEvents.filter(evt => {
     if (filterSuspect === 'ALL') return true;
     return evt.relatedSuspects.includes(filterSuspect);
   });
 
   const handleInspectContradiction = (evt: TimelineEvent) => {
-    const matching = INITIAL_CONTRADICTIONS.find(c =>
+    const matching = contradictionsList.find(c =>
       evt.relatedEvidence.includes(c.contradictingEvidenceId) || c.suspectId === evt.relatedSuspects[0]
     );
 
@@ -57,7 +55,7 @@ export const EventChronologyPage: React.FC = () => {
       {/* Top Header Bar */}
       <header className="chronology-header-bar font-mono">
         <div className="header-left">
-          <div className="sub-tag text-gold">EVENT CHRONOLOGY // INCIDENT #001</div>
+          <div className="sub-tag text-gold">EVENT CHRONOLOGY // INCIDENT #{activeCase.metadata.caseNumber}</div>
           <h1 className="main-title font-headline">Reconstructed Time Sequence</h1>
           <p className="subtitle">Chronological record of verified events, suspect movements, and statement contradictions.</p>
         </div>
@@ -69,32 +67,17 @@ export const EventChronologyPage: React.FC = () => {
               className={`filter-pill ${filterSuspect === 'ALL' ? 'active' : ''}`}
               onClick={() => setFilterSuspect('ALL')}
             >
-              ALL ({CANONICAL_TIMELINE.length})
+              ALL ({timelineEvents.length})
             </button>
-            <button
-              className={`filter-pill ${filterSuspect === 'james-blackwood' ? 'active' : ''}`}
-              onClick={() => setFilterSuspect('james-blackwood')}
-            >
-              JAMES
-            </button>
-            <button
-              className={`filter-pill ${filterSuspect === 'martha-caldwell' ? 'active' : ''}`}
-              onClick={() => setFilterSuspect('martha-caldwell')}
-            >
-              MARTHA
-            </button>
-            <button
-              className={`filter-pill ${filterSuspect === 'daniel-sterling' ? 'active' : ''}`}
-              onClick={() => setFilterSuspect('daniel-sterling')}
-            >
-              DANIEL
-            </button>
-            <button
-              className={`filter-pill ${filterSuspect === 'eleanor-blackwood' ? 'active' : ''}`}
-              onClick={() => setFilterSuspect('eleanor-blackwood')}
-            >
-              ELEANOR
-            </button>
+            {suspectsList.map(s => (
+              <button
+                key={s.id}
+                className={`filter-pill ${filterSuspect === s.id ? 'active' : ''}`}
+                onClick={() => setFilterSuspect(s.id)}
+              >
+                {s.name.split(' ')[1]?.toUpperCase() || s.name.toUpperCase()}
+              </button>
+            ))}
           </div>
         </div>
       </header>

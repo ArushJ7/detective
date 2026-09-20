@@ -98,6 +98,12 @@
   border: 1px solid rgba(183, 204, 178, 0.4);
 }
 
+.case-status-badge.completed {
+  background-color: rgba(233, 193, 118, 0.2);
+  color: var(--color-primary, #e9c176);
+  border: 1px solid rgba(233, 193, 118, 0.5);
+}
+
 .case-status-badge.locked {
   background-color: rgba(154, 143, 128, 0.15);
   color: var(--color-text-muted, #9a8f80);

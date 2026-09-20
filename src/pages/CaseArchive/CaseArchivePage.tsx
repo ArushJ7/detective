@@ -35,12 +35,28 @@ export const CaseArchivePage: React.FC = () => {
         {/* Active Registered Cases */}
         {cases.map(c => {
           const isActive = state.activeCaseId === c.id;
+          const isCase1Completed =
+            state.completedCaseIds.includes('case-001') ||
+            state.completedCaseIds.includes('case001') ||
+            (state.activeCaseId === 'case-001' && state.caseSolved === true);
+
+          const isSolved =
+            state.completedCaseIds.includes(c.id) ||
+            (state.activeCaseId === c.id && state.caseSolved === true);
+
+          // Lock logic: Case 1 is always unlocked. Case 2 unlocks after Case 1 completion.
+          const isLocked = c.id === 'case-002' && !isCase1Completed;
+
+          const statusText = isSolved ? 'COMPLETED' : isLocked ? 'LOCKED' : 'AVAILABLE';
+          const statusClass = isSolved ? 'completed' : isLocked ? 'locked' : 'available';
+
           return (
-            <div key={c.id} className={`case-card ${isActive ? 'active-case' : ''}`}>
+            <div key={c.id} className={`case-card ${isActive ? 'active-case' : ''} ${isLocked ? 'locked-case' : ''}`}>
               <div className="case-card-header font-mono">
                 <span className="case-number-badge">{c.caseNumber}</span>
-                <span className="case-status-badge available font-bold">
-                  {state.caseSolved ? 'COMPLETED' : 'AVAILABLE'}
+                <span className={`case-status-badge ${statusClass} font-bold`}>
+                  {isLocked && <Lock size={12} className="inline mr-1" />}
+                  {statusText}
                 </span>
               </div>
 
@@ -62,11 +78,21 @@ export const CaseArchivePage: React.FC = () => {
 
               <div className="case-card-actions">
                 <button
-                  className="btn-select-case font-mono"
-                  onClick={() => handleSelectCase(c.id)}
+                  className={`btn-select-case font-mono ${isLocked ? 'disabled' : ''}`}
+                  disabled={isLocked}
+                  onClick={() => !isLocked && handleSelectCase(c.id)}
                 >
-                  <Play size={14} />
-                  <span>{isActive ? 'CONTINUE INVESTIGATION' : 'OPEN CASE DOSSIER'}</span>
+                  {isLocked ? (
+                    <>
+                      <Lock size={14} />
+                      <span>CASE FILE SEALED (REQUIRES CASE #001)</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play size={14} />
+                      <span>{isActive ? 'CONTINUE INVESTIGATION' : 'OPEN CASE DOSSIER'}</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -76,24 +102,24 @@ export const CaseArchivePage: React.FC = () => {
         {/* Future Case Placeholder (Locked) */}
         <div className="case-card locked-case">
           <div className="case-card-header font-mono">
-            <span className="case-number-badge">SY-1895-CR-002</span>
+            <span className="case-number-badge">SY-1896-CR-003</span>
             <span className="case-status-badge locked font-bold">
               <Lock size={12} className="inline mr-1" />
               LOCKED
             </span>
           </div>
 
-          <h2 className="case-card-title font-headline">The Locked Room Mystery</h2>
-          <span className="case-card-subtitle font-mono">Highland Manor · Sealed Tower Suite</span>
+          <h2 className="case-card-title font-headline">The Vanishing Cipher</h2>
+          <span className="case-card-subtitle font-mono">Royal Observatory · Greenwich</span>
 
           <p className="case-card-synopsis">
-            A prominent industrialist is found deceased behind a double-bolted oak door. No windows breached. No secret passages detected.
+            An astronomer vanishes from an enclosed observatory dome during a celestial eclipse. Telegraph line severed.
           </p>
 
           <div className="case-card-meta font-mono">
             <div className="meta-item">
               <span className="lbl">LOCATION:</span>
-              <span className="val">Highland Estate, Scotland</span>
+              <span className="val">Greenwich, London</span>
             </div>
             <div className="meta-item">
               <span className="lbl">STATUS:</span>

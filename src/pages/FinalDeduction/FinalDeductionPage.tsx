@@ -262,7 +262,7 @@ export const FinalDeductionPage: React.FC = () => {
               <h2>SEAL CASE DOSSIER?</h2>
             </div>
             <p className="modal-body-text">
-              You are about to formally seal the accusation dossier for <strong>Case #001: The Missing Necklace</strong>.
+              You are about to formally seal the accusation dossier for <strong>{activeCase.metadata.caseNumber}: {activeCase.metadata.title}</strong>.
               <br /><br />
               Your deduction will be forensically audited against the evidence before being presented to the Magistrates' Court.
             </p>

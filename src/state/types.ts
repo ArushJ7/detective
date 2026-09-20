@@ -185,6 +185,7 @@ export interface InvestigationState {
   deductionSubmitted: boolean;
   deductionResult: DeductionValidationResult | null;
   caseSolved: boolean | null;
+  completedCaseIds: string[];
 }
 
 export type InvestigationAction =

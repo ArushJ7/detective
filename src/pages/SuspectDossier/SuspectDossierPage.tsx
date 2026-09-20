@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { INITIAL_EVIDENCE } from '../../data/evidence';
 import type { Suspect } from '../../state/types';
 import {
   AlertTriangle,
@@ -14,7 +13,7 @@ import {
 import './SuspectDossierPage.css';
 
 export const SuspectDossierPage: React.FC = () => {
-  const { state, dispatch, suspectsList } = useInvestigation();
+  const { state, dispatch, suspectsList, evidenceList } = useInvestigation();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState<'profile' | 'statement' | 'alibi' | 'evidence'>('profile');
@@ -50,7 +49,7 @@ export const SuspectDossierPage: React.FC = () => {
     navigate(`/interrogation?suspect=${selectedSuspect.id}`);
   };
 
-  const linkedEvidenceItems = INITIAL_EVIDENCE.filter(e =>
+  const linkedEvidenceItems = evidenceList.filter(e =>
     selectedSuspect.linkedEvidenceIds.includes(e.id)
   );
 

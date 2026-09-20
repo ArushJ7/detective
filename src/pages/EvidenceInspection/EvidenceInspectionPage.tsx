@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
+import { Case002DoorInspection } from '../../components/game/Case002DoorInspection';
+import { Case002DecoyInspection } from '../../components/game/Case002DecoyInspection';
 import { Sparkles, ZoomIn, RotateCw, Contrast, Key, Pin, Edit3, X, CheckCircle2, ShieldAlert } from 'lucide-react';
 import './EvidenceInspectionPage.css';
 
@@ -9,6 +11,14 @@ export const EvidenceInspectionPage: React.FC = () => {
   const navigate = useNavigate();
 
   const item = selectedEvidence || discoveredEvidence[0];
+
+  if (state.activeCaseId === 'case-002' && (item?.id === 'EVD-201' || item?.id === 'EVD-202')) {
+    return <Case002DoorInspection />;
+  }
+
+  if (state.activeCaseId === 'case-002' && (item?.id === 'EVD-208' || item?.id === 'EVD-209')) {
+    return <Case002DecoyInspection />;
+  }
 
   const [zoomLevel, setZoomLevel] = useState<'12.5X' | '25.0X'>('12.5X');
   const [rotationDegree, setRotationDegree] = useState<number>(0);

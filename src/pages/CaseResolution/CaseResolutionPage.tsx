@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInvestigation } from '../../state/InvestigationContext';
-import { CASE_001_TRUTH } from '../../data/case001/truth';
-import { INITIAL_EVIDENCE } from '../../data/evidence';
-import { CANONICAL_TIMELINE } from '../../data/timeline';
 import { sfx } from '../../utils/audio';
 import { TypewriterText } from '../../components/ui/TypewriterText';
 import { ShieldCheck, AlertCircle, FileSearch, ExternalLink, RefreshCw, Layout, BookOpen, Clock, Users } from 'lucide-react';
@@ -11,7 +8,7 @@ import './CaseResolutionPage.css';
 
 export const CaseResolutionPage: React.FC = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useInvestigation();
+  const { state, dispatch, activeCase, evidenceList, timelineEvents } = useInvestigation();
 
   const { deductionSubmitted, deductionResult, deductionDraft } = state;
 
@@ -27,7 +24,7 @@ export const CaseResolutionPage: React.FC = () => {
         <div className="empty-box">
           <AlertCircle size={40} className="empty-icon" />
           <h2>NO SUBMITTED ACCUSATION DOSSIER</h2>
-          <p>You have not yet submitted a formal deduction for Case #001: The Missing Necklace.</p>
+          <p>You have not yet submitted a formal deduction for {activeCase.metadata.caseNumber}: {activeCase.metadata.title}.</p>
           <button className="btn-navigate-deduction" onClick={() => navigate('/deduction')}>
             GO TO FINAL ACCUSATION DOSSIER
           </button>
@@ -38,8 +35,8 @@ export const CaseResolutionPage: React.FC = () => {
 
   const { resolutionState, culprit, method, motive, evidenceChain, timelineReconstruction, summaryTitle, summaryNarrative } = deductionResult;
 
-  const attachedEvidenceItems = INITIAL_EVIDENCE.filter(e => deductionDraft.selectedEvidenceIds.includes(e.id));
-  const attachedTimelineEvents = CANONICAL_TIMELINE.filter(t => deductionDraft.selectedTimelineEventIds.includes(t.id));
+  const attachedEvidenceItems = evidenceList.filter(e => deductionDraft.selectedEvidenceIds.includes(e.id));
+  const attachedTimelineEvents = timelineEvents.filter(t => deductionDraft.selectedTimelineEventIds.includes(t.id));
 
   const handleNavigateToEvidence = (evidenceId: string) => {
     dispatch({ type: 'INSPECT_EVIDENCE', payload: evidenceId });
@@ -215,7 +212,7 @@ export const CaseResolutionPage: React.FC = () => {
           <ShieldCheck size={20} />
           <h3>CANONICAL POLICE CASE RECONSTRUCTION</h3>
         </div>
-        <p className="truth-text">{CASE_001_TRUTH.explanation}</p>
+        <p className="truth-text">{activeCase.truth.explanation}</p>
       </div>
 
       {/* Navigation Footer */}
